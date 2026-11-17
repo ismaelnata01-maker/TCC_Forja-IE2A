@@ -1,10 +1,6 @@
 # TCC_Forja-IE2A
 
-## 8. README
-
-### O repositório deverá possuir um README.md contendo:
-
-### Nome da empresa e do sistema: 
+## Nome da empresa e do sistema: 
  - IE2A
 
 ### Logo do projeto:
