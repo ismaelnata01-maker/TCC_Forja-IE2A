@@ -4,7 +4,7 @@
  - IE2A
 
 ## Logo do projeto:
- ![Logo](image.png)
+ ![Logo](/public/images/image.png)
 
 ## Descrição do sistema:
  
