@@ -9,13 +9,13 @@
 ## Descrição do sistema:
  
  ### O sistema terá:
- - Página login
- - Página perfil
- - Página inicial
- - Página de catálogo
- - Página detalhe do jogo
- - Página minha biblioteca
- - Página adicionar jogo
+ - Página login.
+ - Página perfil.
+ - Página inicial.
+ - Página de catálogo.
+ - Página detalhe do jogo.
+ - Página minha biblioteca.
+ - Página adicionar jogo.
 
 ## Objetivo e problema que pretende resolver:
  - 
