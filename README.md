@@ -13,7 +13,6 @@
  - Página perfil.
  - Página inicial.
  - Página de catálogo.
- - Página detalhe do jogo.
  - Página minha biblioteca.
  - Página adicionar jogo.
 
@@ -21,7 +20,7 @@
  - 
 
 ## Principais funcionalidades:
- - 
+ - Apresentar 
 
 ## Tecnologias utilizadas:
  - Linguagem CSS e TypeScript
