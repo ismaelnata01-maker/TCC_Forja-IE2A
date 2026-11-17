@@ -3,25 +3,32 @@
 ## Nome da empresa e do sistema: 
  - IE2A
 
-### Logo do projeto:
+## Logo do projeto:
  ![Logo](image.png)
 
-### Descrição do sistema:
+## Descrição do sistema:
+ 
+ ### O sistema terá:
+ - Página login
+ - Página inicial
+ - Página de catálogo
+ - Página detalhe do jogo
+ - Página minha biblioteca
+ - Página adicionar jogo
+
+## Objetivo e problema que pretende resolver:
  - 
 
-### Objetivo e problema que pretende resolver:
+## Principais funcionalidades:
  - 
 
-### Principais funcionalidades:
- - 
-
-### Tecnologias utilizadas:
+## Tecnologias utilizadas:
  - Linguagem CSS e TypeScript
 
-### Integrantes do grupo:
+## Integrantes do grupo:
  - Ismael
  - Enzo
  - Antony
  - Alfredo
-### Instruções básicas para executar o projeto:
+## Instruções básicas para executar o projeto:
  - 
