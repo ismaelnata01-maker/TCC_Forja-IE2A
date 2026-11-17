@@ -33,8 +33,3 @@
  - Alfredo
 ## Instruções básicas para executar o projeto:
  - 
-
-
-
-
- FUNCIONOU?
