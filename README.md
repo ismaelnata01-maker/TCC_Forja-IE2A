@@ -10,6 +10,7 @@
  
  ### O sistema terá:
  - Página login
+ - Página perfil
  - Página inicial
  - Página de catálogo
  - Página detalhe do jogo
