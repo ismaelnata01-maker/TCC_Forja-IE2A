@@ -12,19 +12,20 @@
 
 ### Descrição do sistema:
  - 
- 
+
 ### Objetivo e problema que pretende resolver:
  - 
 
 ### Principais funcionalidades:
  - 
 
-### Tecnologias utilizadas.
+### Tecnologias utilizadas:
  - Linguagem CSS e TypeScript
 
-### Integrantes do grupo.
+### Integrantes do grupo:
  - Ismael
  - Enzo
  - Antony
  - Alfredo
-### Instruções básicas para executar o projeto.
+### Instruções básicas para executar o projeto:
+ - 
