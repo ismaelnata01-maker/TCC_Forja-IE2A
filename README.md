@@ -20,7 +20,7 @@
  - O objetivo do IE2A é juntar vários jogos de várias empresas em um único lugar, resolvendo o problema de ter que ir em vários sites apenas para obter os jogos desejados trazendo praticidade e otimização de tempo para o usuário
 
 ## Principais funcionalidades:
- - 
+ - Compilação de jogos
 
 ## Tecnologias utilizadas:
  - Linguagem CSS e TypeScript
