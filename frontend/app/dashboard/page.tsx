@@ -76,16 +76,11 @@ export default function DashboardPage() {
                         <span>Início</span>
                     </Link>
 
-                    <Link href="/descobrir">
+                    <Link href="/catalogo">
                         <Compass size={20} />
-                        <span>Descobrir</span>
+                        <span>Catálogo</span>
                     </Link>
-
-                    <Link href="/categorias">
-                        <Gamepad2 size={20} />
-                        <span>Categorias</span>
-                    </Link>
-
+ 
                     <Link href="/promocoes">
                         <Tag size={20} />
                         <span>Promoções</span>
