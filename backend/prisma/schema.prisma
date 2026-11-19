@@ -1,0 +1,19 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model Funcionario {
+  id         Int       @id @default(autoincrement())
+  nome       String
+  email      String    @unique
+  cargo      String
+  nascimento DateTime?
+  cpf        String
+  senha      String
+  telefone   String?
+  endereco   String?
+}
