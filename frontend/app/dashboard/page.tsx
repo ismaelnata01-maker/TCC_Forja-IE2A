@@ -3,6 +3,22 @@ import styles from "./page.module.css";
 import Image from "next/image";
 import Link from "next/link";
 
+import {
+    Home,
+    Compass,
+    Gamepad2,
+    Tag,
+    Trophy,
+    Heart,
+    User,
+    Settings,
+    LogOut,
+    Search,
+    Bell,
+    Flame,
+    Sparkles
+} from "lucide-react";
+
 const jogos = [
     {
         id: 1,
@@ -38,7 +54,7 @@ export default function DashboardPage() {
     return (
         <main className={styles.main}>
 
-            {/* Menu lateral */}
+            {/* MENU LATERAL */}
             <aside className={styles.sidebar}>
 
                 <div className={styles.logo}>
@@ -53,57 +69,144 @@ export default function DashboardPage() {
 
                 <nav className={styles.navegacao}>
 
-                    <Link href="/dashboard">Início</Link>
-                    <Link href="/descobrir">Descobrir</Link>
-                    <Link href="/categorias">Categorias</Link>
-                    <Link href="/promocoes">Promoções</Link>
-                    <Link href="/lancamentos">Lançamentos</Link>
-                    <Link href="/favoritos">Favoritos</Link>
+                    <p className={styles.tituloMenu}>MENU</p>
+
+                    <Link href="/dashboard" className={styles.ativo}>
+                        <Home size={20} />
+                        <span>Início</span>
+                    </Link>
+
+                    <Link href="/descobrir">
+                        <Compass size={20} />
+                        <span>Descobrir</span>
+                    </Link>
+
+                    <Link href="/categorias">
+                        <Gamepad2 size={20} />
+                        <span>Categorias</span>
+                    </Link>
+
+                    <Link href="/promocoes">
+                        <Tag size={20} />
+                        <span>Promoções</span>
+                    </Link>
+
+                    <Link href="/lancamentos">
+                        <Trophy size={20} />
+                        <span>Lançamentos</span>
+                    </Link>
+
+                    <Link href="/favoritos">
+                        <Heart size={20} />
+                        <span>Favoritos</span>
+                    </Link>
+
                 </nav>
 
                 <div className={styles.menuInferior}>
-                    <Link href="/perfil">Meu perfil</Link>
-                    <Link href="/configuracoes">Configurações</Link>
+
+                    <p className={styles.tituloMenu}>PESSOAL</p>
+
+                    <Link href="/perfil">
+                        <User size={20} />
+                        <span>Meu perfil</span>
+                    </Link>
+
+                    <Link href="/configuracoes">
+                        <Settings size={20} />
+                        <span>Configurações</span>
+                    </Link>
+
+                    <Link href="/login">
+                        <LogOut size={20} />
+                        <span>Sair</span>
+                    </Link>
+
                 </div>
 
             </aside>
 
-            {/* Conteúdo principal */}
+            {/* CONTEÚDO PRINCIPAL */}
             <div className={styles.conteudo}>
 
-                {/* Cabeçalho */}
+                {/* CABEÇALHO */}
                 <header className={styles.header}>
-                    <input
-                        type="text"
-                        placeholder="Pesquisar jogos..."
-                    />
 
-                    <Link href="/perfil" className={styles.perfil}>
-                        Meu perfil
-                    </Link>
+                    <div className={styles.pesquisa}>
+                        <Search size={20} />
+                        <input
+                            type="text"
+                            placeholder="Pesquisar jogos..."
+                        />
+                    </div>
+
+                    <div className={styles.acoesHeader}>
+
+                        <button
+                            className={styles.botaoIcone}
+                            aria-label="Notificações"
+                        >
+                            <Bell size={21} />
+                        </button>
+
+                        <Link
+                            href="/perfil"
+                            className={styles.perfil}
+                            aria-label="Meu perfil"
+                        >
+                            <User size={21} />
+                        </Link>
+
+                    </div>
+
                 </header>
 
-                {/* Banner */}
+                {/* BANNER */}
                 <section className={styles.banner}>
-                    <div>
-                        <p>DESTAQUE DA SEMANA</p>
-                        <h2>Descubra seu próximo jogo favorito</h2>
+
+                    <div className={styles.bannerConteudo}>
+
+                        <p className={styles.bannerEtiqueta}>
+                            <Sparkles size={16} />
+                            DESTAQUE DA SEMANA
+                        </p>
+
+                        <h2>
+                            Descubra seu próximo jogo favorito
+                        </h2>
+
                         <span>
                             Explore novos mundos, aventuras e desafios.
                         </span>
+
                         <Link href="/descobrir">
                             Explorar jogos
+                            <Compass size={18} />
                         </Link>
+
                     </div>
+
                 </section>
 
-                {/* Jogos em destaque */}
+                {/* JOGOS EM DESTAQUE */}
                 <section className={styles.secao}>
-                    <h2>Jogos em destaque</h2>
+
+                    <div className={styles.tituloSecao}>
+                        <h2>Jogos em destaque</h2>
+                        <Link href="/descobrir">
+                            Ver todos
+                            <ChevronRightFallback />
+                        </Link>
+                    </div>
 
                     <div className={styles.listaJogos}>
+
                         {jogos.map((jogo) => (
-                            <article className={styles.cardJogo} key={jogo.id}>
+                            <article
+                                className={styles.cardJogo}
+                                key={jogo.id}
+                            >
+
                                 <div className={styles.imagemJogo}>
                                     <Image
                                         src={jogo.imagem}
@@ -111,31 +214,79 @@ export default function DashboardPage() {
                                         fill
                                         sizes="(max-width: 700px) 80vw, 250px"
                                     />
+
+                                    <button
+                                        className={styles.favorito}
+                                        aria-label={`Favoritar ${jogo.nome}`}
+                                    >
+                                        <Heart size={19} />
+                                    </button>
                                 </div>
 
                                 <div className={styles.infoJogo}>
+
                                     <p>{jogo.categoria}</p>
+
                                     <h3>{jogo.nome}</h3>
-                                    <span>{jogo.preco}</span>
+
+                                    <div className={styles.preco}>
+                                        <span>{jogo.preco}</span>
+                                    </div>
+
                                 </div>
+
                             </article>
                         ))}
+
                     </div>
+
                 </section>
 
-                {/* Promoções */}
+                {/* PROMOÇÕES */}
                 <section className={styles.secao}>
-                    <h2>Promoções</h2>
-                    <p>Confira os jogos com descontos especiais.</p>
+
+                    <div className={styles.tituloSecao}>
+                        <h2>
+                            <Tag size={21} />
+                            Promoções
+                        </h2>
+                        <Link href="/promocoes">
+                            Ver todos
+                            <ChevronRightFallback />
+                        </Link>
+                    </div>
+
+                    <div className={styles.avisoSecao}>
+                        <Flame size={25} />
+                        <p>Confira em breve os jogos com descontos especiais.</p>
+                    </div>
+
                 </section>
 
-                {/* Mais populares */}
+                {/* MAIS POPULARES */}
                 <section className={styles.secao}>
-                    <h2>Mais populares</h2>
-                    <p>Os jogos que estão fazendo sucesso.</p>
+
+                    <div className={styles.tituloSecao}>
+                        <h2>
+                            <Flame size={21} />
+                            Mais populares
+                        </h2>
+                    </div>
+
+                    <div className={styles.avisoSecao}>
+                        <Gamepad2 size={25} />
+                        <p>Os jogos mais populares estarão aqui.</p>
+                    </div>
+
                 </section>
 
             </div>
+
         </main>
     );
 }
+
+function ChevronRightFallback() {
+    return <span aria-hidden="true">→</span>;
+}
+    
