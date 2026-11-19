@@ -1,0 +1,10 @@
+import styles from "./page.module.css";
+
+export default function DashboardPage() {
+    return (
+        <main className={styles.main}>
+            <h1>IE2A</h1>
+            <p>Teste de CSS</p>
+        </main>
+    );
+}
