@@ -14,6 +14,8 @@ import {
     Tag,
     Star,
 } from "lucide-react";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 
 const jogos = [
     {
@@ -95,6 +97,30 @@ const populares = [
 ];
 
 export default function Dashboard() {
+    const router = useRouter();
+    const [secao, setSecao] = useState("Descobrir");
+    const [usuario, setUsuario] = useState<{ nome: string } | null>(null);
+
+    useEffect(() => {
+        fetch("/api/me")
+            .then(async (response) => {
+                if (!response.ok) {
+                    router.replace("/");
+                    return null;
+                }
+                return response.json();
+            })
+            .then((dados) => {
+                if (dados) setUsuario(dados);
+            })
+            .catch(() => router.replace("/"));
+    }, [router]);
+
+    async function sair() {
+        await fetch("/api/logout", { method: "POST" });
+        router.replace("/");
+        router.refresh();
+    }
     return (
         <main className={styles.main}>
             <Sidebar />

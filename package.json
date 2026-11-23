@@ -1,0 +1,7 @@
+{
+  "name": "tcc-forja-ie2a",
+  "private": true,
+  "scripts": {
+    "dev": "npm --prefix backend run dev"
+  }
+}

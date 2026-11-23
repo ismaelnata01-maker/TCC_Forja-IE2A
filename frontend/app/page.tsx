@@ -2,22 +2,48 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import styles from "./page.module.css";
 import Button from "@/componentes/button";
 
 export default function Login() {
     const [email, setEmail] = useState("");
     const [senha, setSenha] = useState("");
+    const [erro, setErro] = useState("");
+    const [carregando, setCarregando] = useState(false);
+    const router = useRouter();
 
-    function entrar(e: React.FormEvent) {
+    async function entrar(e: React.FormEvent) {
         e.preventDefault();
+        setErro("");
 
         if (!email || !senha) {
-            alert("Preencha todos os campos!");
+            setErro("Preencha todos os campos!");
             return;
         }
 
-        alert("Login realizado com sucesso!");
+        setCarregando(true);
+        try {
+            const response = await fetch("/api/login", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email, senha }),
+            });
+
+            if (!response.ok) {
+                const mensagem = await response.text();
+                setErro(mensagem.replaceAll("\"", "") || "Email ou senha inválidos.");
+                return;
+            }
+
+            router.push("/dashboard");
+            router.refresh();
+        } catch {
+            setErro("Não foi possível conectar ao servidor.");
+        } finally {
+            setCarregando(false);
+        }
     }
 
     return (
@@ -62,13 +88,19 @@ export default function Login() {
                         />
                     </div>
 
-                    <Button type="submit" variant="primary">
-                        ENTRAR
-                    </Button>
+                    <button type="submit" disabled={carregando}>
+                        {carregando ? "ENTRANDO..." : "ENTRAR"}
+                    </button>
 
                 </form>
 
-                <div className={styles.rodape}>
+                {erro && <p className={styles.erro}>{erro}</p>}
+
+                <p className={styles.cadastro}>
+                    Ainda não tem uma conta? <Link href="/cadastro">Cadastre-se</Link>
+                </p>
+
+               <div className={styles.rodape}>
                     © 2026 IE2A - Todos os direitos reservados.
                 </div>
 
