@@ -80,16 +80,6 @@ export default function DashboardPage() {
                         <Compass size={20} />
                         <span>Catálogo</span>
                     </Link>
- 
-                    <Link href="/promocoes">
-                        <Tag size={20} />
-                        <span>Promoções</span>
-                    </Link>
-
-                    <Link href="/lancamentos">
-                        <Trophy size={20} />
-                        <span>Lançamentos</span>
-                    </Link>
 
                     <Link href="/favoritos">
                         <Heart size={20} />
