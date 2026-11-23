@@ -1,22 +1,18 @@
+"use client";
 
-import styles from "./page.module.css";
 import Image from "next/image";
 import Link from "next/link";
+import styles from "./page.module.css";
+import Sidebar from "@/componentes/sidebar";
 
 import {
-    Home,
-    Compass,
-    Gamepad2,
-    Tag,
-    Trophy,
-    Heart,
-    User,
-    Settings,
-    LogOut,
     Search,
     Bell,
+    User,
+    ArrowRight,
     Flame,
-    Sparkles
+    Tag,
+    Star,
 } from "lucide-react";
 
 const jogos = [
@@ -24,109 +20,87 @@ const jogos = [
         id: 1,
         nome: "Cyberpunk 2077",
         imagem: "/jogos/cyberpunk.jpg",
+        categoria: "RPG / Mundo aberto",
         preco: "R$ 149,90",
-        categoria: "RPG"
     },
     {
         id: 2,
         nome: "Red Dead Redemption 2",
         imagem: "/jogos/reddead.jpg",
-        preco: "R$ 99,90",
-        categoria: "Aventura"
+        categoria: "Ação / Aventura",
+        preco: "R$ 199,90",
     },
     {
         id: 3,
         nome: "Elden Ring",
         imagem: "/jogos/eldenring.jpg",
-        preco: "R$ 199,90",
-        categoria: "RPG"
+        categoria: "RPG / Fantasia",
+        preco: "R$ 229,90",
     },
     {
         id: 4,
         nome: "Forza Horizon 5",
         imagem: "/jogos/forza.jpg",
-        preco: "R$ 129,90",
-        categoria: "Corrida"
-    }
+        categoria: "Corrida",
+        preco: "R$ 179,90",
+    },
 ];
 
-export default function DashboardPage() {
+const promocoes = [
+    {
+        id: 1,
+        nome: "Battlefield 2042",
+        imagem: "/jogos/battlefield.jpg",
+        precoAntigo: "R$ 249,90",
+        preco: "R$ 74,90",
+        desconto: "-70%",
+    },
+    {
+        id: 2,
+        nome: "Cyberpunk 2077",
+        imagem: "/jogos/cyberpunk.jpg",
+        precoAntigo: "R$ 199,90",
+        preco: "R$ 99,90",
+        desconto: "-50%",
+    },
+    {
+        id: 3,
+        nome: "Red Dead Redemption 2",
+        imagem: "/jogos/reddead.jpg",
+        precoAntigo: "R$ 299,90",
+        preco: "R$ 149,90",
+        desconto: "-50%",
+    },
+];
+
+const populares = [
+    {
+        id: 1,
+        nome: "Grand Theft Auto V",
+        imagem: "/jogos/gta.jpg",
+        categoria: "Mundo aberto",
+    },
+    {
+        id: 2,
+        nome: "Fortnite",
+        imagem: "/jogos/fortnite.jpg",
+        categoria: "Battle Royale",
+    },
+    {
+        id: 3,
+        nome: "God of War Ragnarök",
+        imagem: "/jogos/godofwar.jpg",
+        categoria: "Ação / Aventura",
+    },
+];
+
+export default function Dashboard() {
     return (
         <main className={styles.main}>
+            <Sidebar />
 
-            {/* MENU LATERAL */}
-            <aside className={styles.sidebar}>
-
-                <div className={styles.logo}>
-                    <Image
-                        src="/logo.png"
-                        alt="Logo IE2A"
-                        width={65}
-                        height={65}
-                    />
-                    <h1>IE2A</h1>
-                </div>
-
-                <nav className={styles.navegacao}>
-
-                    <p className={styles.tituloMenu}>MENU</p>
-
-                    <Link href="/dashboard" className={styles.ativo}>
-                        <Home size={20} />
-                        <span>Início</span>
-                    </Link>
-
-                    <Link href="/catalogo">
-                        <Compass size={20} />
-                        <span>Catálogo</span>
-                    </Link>
- 
-                    <Link href="/promocoes">
-                        <Tag size={20} />
-                        <span>Promoções</span>
-                    </Link>
-
-                    <Link href="/lancamentos">
-                        <Trophy size={20} />
-                        <span>Lançamentos</span>
-                    </Link>
-
-                    <Link href="/favoritos">
-                        <Heart size={20} />
-                        <span>Favoritos</span>
-                    </Link>
-
-                </nav>
-
-                <div className={styles.menuInferior}>
-
-                    <p className={styles.tituloMenu}>PESSOAL</p>
-
-                    <Link href="/perfil">
-                        <User size={20} />
-                        <span>Meu perfil</span>
-                    </Link>
-
-                    <Link href="/configuracoes">
-                        <Settings size={20} />
-                        <span>Configurações</span>
-                    </Link>
-
-                    <Link href="/login">
-                        <LogOut size={20} />
-                        <span>Sair</span>
-                    </Link>
-
-                </div>
-
-            </aside>
-
-            {/* CONTEÚDO PRINCIPAL */}
             <div className={styles.conteudo}>
-
-                {/* CABEÇALHO */}
                 <header className={styles.header}>
-
                     <div className={styles.pesquisa}>
                         <Search size={20} />
                         <input
@@ -136,7 +110,6 @@ export default function DashboardPage() {
                     </div>
 
                     <div className={styles.acoesHeader}>
-
                         <button
                             className={styles.botaoIcone}
                             aria-label="Notificações"
@@ -151,137 +124,178 @@ export default function DashboardPage() {
                         >
                             <User size={21} />
                         </Link>
-
                     </div>
-
                 </header>
 
-                {/* BANNER */}
                 <section className={styles.banner}>
-
                     <div className={styles.bannerConteudo}>
-
-                        <p className={styles.bannerEtiqueta}>
-                            <Sparkles size={16} />
+                        <span className={styles.bannerTag}>
                             DESTAQUE DA SEMANA
-                        </p>
-
-                        <h2>
-                            Descubra seu próximo jogo favorito
-                        </h2>
-
-                        <span>
-                            Explore novos mundos, aventuras e desafios.
                         </span>
 
-                        <Link href="/descobrir">
-                            Explorar jogos
-                            <Compass size={18} />
-                        </Link>
+                        <h1>
+                            Sua próxima
+                            <br />
+                            grande aventura
+                            <br />
+                            começa aqui.
+                        </h1>
 
+                        <p>
+                            Descubra novos mundos, encontre seus jogos
+                            favoritos e aproveite ofertas especiais.
+                        </p>
+
+                        <Link href="/catalogo" className={styles.botaoBanner}>
+                            Explorar jogos
+                            <ArrowRight size={18} />
+                        </Link>
                     </div>
 
+                    <div className={styles.bannerImagem}>
+                        <Image
+                            src="/jogos/cyberpunk.jpg"
+                            alt="Cyberpunk 2077"
+                            fill
+                            priority
+                            sizes="(max-width: 750px) 100vw, 50vw"
+                        />
+                    </div>
                 </section>
 
-                {/* JOGOS EM DESTAQUE */}
                 <section className={styles.secao}>
-
                     <div className={styles.tituloSecao}>
-                        <h2>Jogos em destaque</h2>
-                        <Link href="/descobrir">
+                        <div>
+                            <span className={styles.subtitulo}>
+                                ESCOLHAS PARA VOCÊ
+                            </span>
+                            <h2>Jogos em destaque</h2>
+                        </div>
+
+                        <Link href="/catalogo" className={styles.verTodos}>
                             Ver todos
-                            <ChevronRightFallback />
+                            <ArrowRight size={17} />
                         </Link>
                     </div>
 
                     <div className={styles.listaJogos}>
-
                         {jogos.map((jogo) => (
-                            <article
-                                className={styles.cardJogo}
-                                key={jogo.id}
-                            >
-
+                            <article className={styles.cardJogo} key={jogo.id}>
                                 <div className={styles.imagemJogo}>
                                     <Image
                                         src={jogo.imagem}
                                         alt={jogo.nome}
                                         fill
-                                        sizes="(max-width: 700px) 80vw, 250px"
+                                        sizes="(max-width: 750px) 50vw, 25vw"
                                     />
-
-                                    <button
-                                        className={styles.favorito}
-                                        aria-label={`Favoritar ${jogo.nome}`}
-                                    >
-                                        <Heart size={19} />
-                                    </button>
                                 </div>
 
                                 <div className={styles.infoJogo}>
-
-                                    <p>{jogo.categoria}</p>
-
+                                    <span>{jogo.categoria}</span>
                                     <h3>{jogo.nome}</h3>
-
-                                    <div className={styles.preco}>
-                                        <span>{jogo.preco}</span>
-                                    </div>
-
+                                    <strong>{jogo.preco}</strong>
                                 </div>
-
                             </article>
                         ))}
-
                     </div>
-
                 </section>
 
-                {/* PROMOÇÕES */}
                 <section className={styles.secao}>
-
                     <div className={styles.tituloSecao}>
-                        <h2>
-                            <Tag size={21} />
-                            Promoções
-                        </h2>
-                        <Link href="/promocoes">
-                            Ver todos
-                            <ChevronRightFallback />
+                        <div>
+                            <span className={styles.subtitulo}>
+                                <Tag size={14} />
+                                OFERTAS ESPECIAIS
+                            </span>
+                            <h2>Promoções imperdíveis</h2>
+                        </div>
+
+                        <Link href="/promocoes" className={styles.verTodos}>
+                            Ver promoções
+                            <ArrowRight size={17} />
                         </Link>
                     </div>
 
-                    <div className={styles.avisoSecao}>
-                        <Flame size={25} />
-                        <p>Confira em breve os jogos com descontos especiais.</p>
-                    </div>
+                    <div className={styles.listaJogos}>
+                        {promocoes.map((jogo) => (
+                            <article
+                                className={styles.cardJogo}
+                                key={jogo.id}
+                            >
+                                <div className={styles.imagemJogo}>
+                                    <Image
+                                        src={jogo.imagem}
+                                        alt={jogo.nome}
+                                        fill
+                                        sizes="(max-width: 750px) 50vw, 25vw"
+                                    />
 
+                                    <span className={styles.seloDesconto}>
+                                        {jogo.desconto}
+                                    </span>
+                                </div>
+
+                                <div className={styles.infoJogo}>
+                                    <h3>{jogo.nome}</h3>
+
+                                    <div className={styles.precosPromocao}>
+                                        <del>{jogo.precoAntigo}</del>
+                                        <strong>{jogo.preco}</strong>
+                                    </div>
+                                </div>
+                            </article>
+                        ))}
+                    </div>
                 </section>
 
-                {/* MAIS POPULARES */}
                 <section className={styles.secao}>
-
                     <div className={styles.tituloSecao}>
-                        <h2>
-                            <Flame size={21} />
-                            Mais populares
-                        </h2>
+                        <div>
+                            <span className={styles.subtitulo}>
+                                <Flame size={14} />
+                                EM ALTA
+                            </span>
+                            <h2>Mais populares</h2>
+                        </div>
+
+                        <Link href="/catalogo" className={styles.verTodos}>
+                            Explorar catálogo
+                            <ArrowRight size={17} />
+                        </Link>
                     </div>
 
-                    <div className={styles.avisoSecao}>
-                        <Gamepad2 size={25} />
-                        <p>Os jogos mais populares estarão aqui.</p>
-                    </div>
+                    <div className={styles.listaJogos}>
+                        {populares.map((jogo) => (
+                            <article
+                                className={styles.cardJogo}
+                                key={jogo.id}
+                            >
+                                <div className={styles.imagemJogo}>
+                                    <Image
+                                        src={jogo.imagem}
+                                        alt={jogo.nome}
+                                        fill
+                                        sizes="(max-width: 750px) 50vw, 25vw"
+                                    />
+                                </div>
 
+                                <div className={styles.infoJogo}>
+                                    <span>{jogo.categoria}</span>
+                                    <h3>{jogo.nome}</h3>
+                                    <div className={styles.avaliacao}>
+                                        <Star size={15} fill="currentColor" />
+                                        <span>Em alta na loja</span>
+                                    </div>
+                                </div>
+                            </article>
+                        ))}
+                    </div>
                 </section>
 
+                <footer className={styles.footer}>
+                    © 2026 IE2A Store — Todos os direitos reservados.
+                </footer>
             </div>
-
         </main>
     );
 }
-
-function ChevronRightFallback() {
-    return <span aria-hidden="true">→</span>;
-}
-    
