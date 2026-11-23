@@ -42,7 +42,7 @@
     margin-top: 34px;
 }
 
-.nav a,
+.nav button,
 .sair {
     display: flex;
     align-items: center;
@@ -50,23 +50,26 @@
     height: 46px;
     padding: 0 13px;
     border-radius: 8px;
+    border: 0;
+    background: transparent;
     color: #aebbbb;
     font-size: 14px;
     text-decoration: none;
+    cursor: pointer;
 }
 
-.nav a span,
+.nav button span,
 .sair span {
     width: 20px;
     text-align: center;
 }
 
-.nav a.active {
+.nav button.active {
     background: #1c3537;
     color: #fff;
 }
 
-.nav a:hover,
+.nav button:hover,
 .sair:hover {
     background: #172526;
     color: #fff;
@@ -208,10 +211,10 @@
     font-weight: 800;
 }
 
-.alunos .icone { background: #01a4b7; }
-.cursos .icone { background: #3bbb84; }
-.funcionarios .icone { background: #707777; }
-.matriculas .icone { background: #86518e; }
+.descobrir .icone { background: #079fa5; }
+.catalogo .icone { background: #3bbb84; }
+.desejos .icone { background: #c43b66; }
+.biblioteca .icone { background: #707777; }
 
 .status {
     padding: 4px 8px;
@@ -377,18 +380,18 @@
     }
 
     .brand strong,
-    .nav a:not(.active),
-    .nav a,
+    .nav button:not(.active),
+    .nav button,
     .sair {
         font-size: 0;
     }
 
-    .nav a span,
+    .nav button span,
     .sair span {
         font-size: 16px;
     }
 
-    .nav a,
+    .nav button,
     .sair {
         width: 48px;
         justify-content: center;

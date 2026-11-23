@@ -25,6 +25,11 @@ export default function CadastroPage() {
             setErro("A senha deve ter pelo menos 6 caracteres.");
             return;
         }
+        const cpf = String(form.get("cpf")).replace(/\D/g, "");
+        if (cpf.length !== 11) {
+            setErro("Informe um CPF válido com 11 números.");
+            return;
+        }
 
         setCarregando(true);
         try {
@@ -34,8 +39,7 @@ export default function CadastroPage() {
                 body: JSON.stringify({
                     nome: form.get("nome"),
                     email: form.get("email"),
-                    cargo: "FUNCIONARIO",
-                    cpf: form.get("cpf"),
+                    cpf,
                     senha,
                     telefone: form.get("telefone"),
                     nascimento: form.get("nascimento"),
@@ -48,7 +52,7 @@ export default function CadastroPage() {
                 setErro(mensagem.replaceAll("\"", "") || "Não foi possível realizar o cadastro.");
                 return;
             }
-            router.push("/dashboard");
+            router.push("/?cadastro=sucesso");
         } catch {
             setErro("Não foi possível conectar ao servidor.");
         } finally {

@@ -1,13 +1,42 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import styles from "./page.module.css";
 
 const atalhos = [
-    { titulo: "Alunos", descricao: "Gerencie matrículas e dados", valor: "128", classe: "alunos", simbolo: "A" },
-    { titulo: "Cursos", descricao: "Consulte aulas e turmas", valor: "16", classe: "cursos", simbolo: "C" },
-    { titulo: "Funcionários", descricao: "Equipe administrativa", valor: "24", classe: "funcionarios", simbolo: "F" },
-    { titulo: "Matrículas", descricao: "Novas inscrições", valor: "32", classe: "matriculas", simbolo: "M" },
+    { titulo: "Descobrir", descricao: "Novos jogos em destaque", valor: "48", classe: "descobrir", simbolo: "⌂" },
+    { titulo: "Catálogo", descricao: "Explore todos os jogos", valor: "320", classe: "catalogo", simbolo: "▦" },
+    { titulo: "Lista de desejos", descricao: "Jogos aguardando compra", valor: "12", classe: "desejos", simbolo: "♡" },
+    { titulo: "Minha biblioteca", descricao: "Jogos adicionados", valor: "86", classe: "biblioteca", simbolo: "▥" },
 ];
 
 export default function DashboardPage() {
+    const router = useRouter();
+    const [secao, setSecao] = useState("Descobrir");
+    const [usuario, setUsuario] = useState<{ nome: string } | null>(null);
+
+    useEffect(() => {
+        fetch("/api/me")
+            .then(async (response) => {
+                if (!response.ok) {
+                    router.replace("/");
+                    return null;
+                }
+                return response.json();
+            })
+            .then((dados) => {
+                if (dados) setUsuario(dados);
+            })
+            .catch(() => router.replace("/"));
+    }, [router]);
+
+    async function sair() {
+        await fetch("/api/logout", { method: "POST" });
+        router.replace("/");
+        router.refresh();
+    }
+
     return (
         <div className={styles.shell}>
             <aside className={styles.sidebar}>
@@ -17,26 +46,36 @@ export default function DashboardPage() {
                 </div>
 
                 <nav className={styles.nav} aria-label="Menu principal">
-                    <a className={styles.active} href="/dashboard"><span>⌂</span> Início</a>
-                    <a href="#"><span>♙</span> Alunos</a>
-                    <a href="#"><span>▦</span> Cursos</a>
-                    <a href="#"><span>♟</span> Funcionários</a>
-                    <a href="#"><span>✓</span> Matrículas</a>
+                    {[
+                        ["Descobrir", "⌂"],
+                        ["Catálogo", "▦"],
+                        ["Lista de desejos", "♡"],
+                        ["Minha biblioteca", "▥"],
+                    ].map(([nome, simbolo]) => (
+                        <button
+                            type="button"
+                            className={secao === nome ? styles.active : ""}
+                            onClick={() => setSecao(nome)}
+                            key={nome}
+                        >
+                            <span>{simbolo}</span> {nome}
+                        </button>
+                    ))}
                 </nav>
 
-                <a className={styles.sair} href="/"><span>↪</span> Sair</a>
+                <button className={styles.sair} type="button" onClick={sair}><span>↪</span> Sair</button>
             </aside>
 
             <main className={styles.main}>
                 <header className={styles.header}>
                     <div>
                         <p className={styles.data}>Segunda-feira, 23 de novembro</p>
-                        <h1>Bom dia!</h1>
+                        <h1>Olá, jogador!</h1>
                     </div>
                     <div className={styles.usuario}>
                         <div>
-                            <strong>Administrador</strong>
-                            <span>Gestor escolar</span>
+                            <strong>{usuario?.nome || "Jogador"}</strong>
+                            <span>Jogadora</span>
                         </div>
                         <div className={styles.avatar}>A</div>
                     </div>
@@ -45,10 +84,10 @@ export default function DashboardPage() {
                 <section className={styles.conteudo}>
                     <div className={styles.tituloSecao}>
                         <div>
-                            <span>Visão geral</span>
-                            <h2>Painel administrativo</h2>
+                            <span>Seu universo</span>
+                            <h2>{secao}</h2>
                         </div>
-                        <button type="button">+ Novo cadastro</button>
+                        <button type="button">+ Adicionar jogo</button>
                     </div>
 
                     <div className={styles.cards}>
@@ -69,15 +108,19 @@ export default function DashboardPage() {
                     <div className={styles.grade}>
                         <section className={styles.painel}>
                             <div className={styles.painelTitulo}>
-                                <h3>Últimos cadastros</h3>
+                                <h3>Jogados recentemente</h3>
                                 <button type="button">Ver tudo</button>
                             </div>
                             <div className={styles.lista}>
-                                {["Ana Souza", "Carlos Lima", "Julia Martins"].map((nome, index) => (
-                                    <div className={styles.item} key={nome}>
-                                        <div className={styles.miniAvatar}>{nome.charAt(0)}</div>
-                                        <div><strong>{nome}</strong><span>{index === 0 ? "Matrícula realizada" : "Aluno cadastrado"}</span></div>
-                                        <time>Hoje</time>
+                                {[
+                                    ["The Last Chronicle", "Aventura", "Há 20 min"],
+                                    ["Neon Speedway", "Corrida", "Hoje"],
+                                    ["Shadow Arena", "Ação", "Ontem"],
+                                ].map(([jogo, genero, tempo]) => (
+                                    <div className={styles.item} key={jogo}>
+                                        <div className={styles.miniAvatar}>{jogo.charAt(0)}</div>
+                                        <div><strong>{jogo}</strong><span>{genero}</span></div>
+                                        <time>{tempo}</time>
                                     </div>
                                 ))}
                             </div>
@@ -85,12 +128,12 @@ export default function DashboardPage() {
 
                         <section className={styles.painel}>
                             <div className={styles.painelTitulo}>
-                                <h3>Resumo mensal</h3>
+                                <h3>Seu progresso</h3>
                                 <span>Novembro</span>
                             </div>
                             <div className={styles.resumo}>
-                                <div><strong>32</strong><span>Novas matrículas</span></div>
-                                <div><strong>94%</strong><span>Presença média</span></div>
+                                <div><strong>18h</strong><span>Jogadas este mês</span></div>
+                                <div><strong>7</strong><span>Conquistas novas</span></div>
                             </div>
                         </section>
                     </div>
