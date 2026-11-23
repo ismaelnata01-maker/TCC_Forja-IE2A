@@ -1,0 +1,763 @@
+
+.container {
+    min-height: 100vh;
+    padding: 30px 20px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    background:
+        radial-gradient(circle at top left, #10383a, transparent 40%),
+        radial-gradient(circle at bottom right, #102b2d, transparent 40%),
+        #050505;
+}
+
+/* CABEÇALHO */
+
+.header {
+    width: 100%;
+    max-width: 1150px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    margin-bottom: 35px;
+}
+
+.header h1 {
+    color: #ffffff;
+    font-size: 32px;
+    font-weight: 900;
+    letter-spacing: 2px;
+}
+
+.header h1 span,
+.footer strong span {
+    color: #079FA5;
+}
+
+.header nav {
+    display: flex;
+    gap: 28px;
+}
+
+.header nav a {
+    color: #9297ad;
+    text-decoration: none;
+    font-size: 13px;
+    transition: 0.3s;
+}
+
+.header nav a:hover {
+    color: #20c4c9;
+}
+
+/* BANNER PRINCIPAL */
+
+.banner {
+    width: 100%;
+    max-width: 1150px;
+    min-height: 300px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 40px 55px;
+    box-sizing: border-box;
+
+    overflow: hidden;
+    position: relative;
+
+    background:
+        linear-gradient(100deg, #101f20 0%, #12383a 55%, #07575c 100%);
+
+    border: 1px solid #276165;
+    border-radius: 18px;
+}
+
+.bannerConteudo {
+    max-width: 520px;
+    z-index: 1;
+}
+
+.bannerTag {
+    color: #20c4c9;
+    font-size: 11px;
+    font-weight: bold;
+    letter-spacing: 3px;
+}
+
+.banner h2 {
+    color: #ffffff;
+    font-size: 43px;
+    line-height: 1.15;
+    margin: 18px 0;
+}
+
+.banner h2 span {
+    color: #20c4c9;
+}
+
+.banner p {
+    color: #c1d1d2;
+    font-size: 14px;
+    line-height: 1.7;
+    max-width: 430px;
+    margin-bottom: 25px;
+}
+
+.bannerBotao {
+    display: inline-block;
+    padding: 13px 22px;
+
+    background: #079FA5;
+    border-radius: 7px;
+
+    color: #ffffff;
+    font-size: 12px;
+    font-weight: bold;
+    text-decoration: none;
+    letter-spacing: 1px;
+
+    transition: 0.3s;
+}
+
+.bannerBotao:hover {
+    background: #20c4c9;
+    transform: translateY(-2px);
+}
+
+.bannerVisual {
+    width: 230px;
+    height: 210px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    background: #061a1b70;
+    border: 1px solid #ffffff25;
+    border-radius: 20px;
+
+    transform: rotate(5deg);
+}
+
+.bannerPorcentagem {
+    color: #20c4c9;
+    font-size: 65px;
+    font-weight: 900;
+}
+
+.bannerTexto {
+    color: #ffffff;
+    font-size: 10px;
+    letter-spacing: 2px;
+}
+
+.bannerIcone {
+    font-size: 30px;
+    margin-top: 12px;
+}
+
+/* TÍTULOS DAS SEÇÕES */
+
+.destaques,
+.catalogo {
+    width: 100%;
+    max-width: 1150px;
+    margin-top: 55px;
+}
+
+.tituloSecao span,
+.catalogoTitulo span:first-child {
+    color: #079FA5;
+    font-size: 10px;
+    font-weight: bold;
+    letter-spacing: 2px;
+}
+
+.tituloSecao h2,
+.catalogoTitulo h2 {
+    color: #ffffff;
+    font-size: 26px;
+    margin-top: 8px;
+}
+
+/* DESTAQUES */
+
+.destaquesLista {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+    margin-top: 25px;
+}
+
+.destaqueCard {
+    overflow: hidden;
+    background: #151b1c;
+    border: 1px solid #234447;
+    border-radius: 12px;
+    transition: 0.3s;
+}
+
+.destaqueCard:hover {
+    transform: translateY(-4px);
+    border-color: #079FA5;
+}
+
+.destaqueCapa {
+    height: 150px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    position: relative;
+}
+
+.destaqueCapa > span:first-child {
+    color: #ffffff;
+    font-size: 24px;
+    font-weight: 900;
+    text-align: center;
+    text-shadow: 0 3px 10px #000000;
+}
+
+.destaqueInfo {
+    padding: 16px;
+}
+
+.destaqueInfo h3 {
+    color: #ffffff;
+    font-size: 16px;
+    margin-bottom: 6px;
+}
+
+.destaqueInfo > span {
+    color: #9297ad;
+    font-size: 11px;
+}
+
+.preco {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-top: 15px;
+}
+
+.preco del,
+.precos del {
+    color: #777d96;
+    font-size: 11px;
+}
+
+.preco strong,
+.precos strong {
+    color: #20c4c9;
+    font-size: 19px;
+}
+
+/* CATÁLOGO */
+
+.catalogoTitulo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+}
+
+.catalogoTitulo p {
+    color: #9297ad;
+    font-size: 13px;
+    margin-top: 8px;
+}
+
+.total {
+    padding: 13px 18px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+
+    background: #151b1c;
+    border: 1px solid #234447;
+    border-radius: 10px;
+}
+
+.total strong {
+    color: #20c4c9;
+    font-size: 25px;
+}
+
+.total span {
+    color: #9297ad !important;
+    font-size: 10px !important;
+    letter-spacing: 0 !important;
+}
+
+/* PESQUISA E ORDENAÇÃO */
+
+.ferramentas {
+    display: flex;
+    gap: 15px;
+    margin-top: 28px;
+}
+
+.ferramentas input,
+.ferramentas select {
+    padding: 14px;
+
+    background: #151b1c;
+    border: 1px solid #234447;
+    border-radius: 8px;
+
+    color: #ffffff;
+    font-size: 13px;
+    outline: none;
+}
+
+.ferramentas input {
+    flex: 1;
+    min-width: 0;
+}
+
+.ferramentas select {
+    cursor: pointer;
+}
+
+.ferramentas input:focus,
+.ferramentas select:focus {
+    border-color: #079FA5;
+}
+
+.ferramentas input::placeholder {
+    color: #777d96;
+}
+
+/* FILTROS */
+
+.filtros {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 9px;
+    margin: 20px 0 25px;
+}
+
+.filtros button {
+    padding: 9px 16px;
+
+    background: #151b1c;
+    border: 1px solid #34494a;
+    border-radius: 20px;
+
+    color: #9297ad;
+    font-size: 11px;
+
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.filtros button:hover {
+    border-color: #079FA5;
+    color: #20c4c9;
+}
+
+.filtros button.filtroAtivo {
+    background: #079FA5;
+    border-color: #079FA5;
+    color: #ffffff;
+}
+
+/* LISTA DE JOGOS */
+
+.lista {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+}
+
+/* CARD */
+
+.card {
+    overflow: hidden;
+
+    background: #151b1c;
+    border: 1px solid #234447;
+    border-radius: 12px;
+
+    transition: 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    border-color: #079FA5;
+    box-shadow: 0 8px 25px #00000040;
+}
+
+/* CAPAS */
+
+.capa {
+    height: 175px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    position: relative;
+    overflow: hidden;
+}
+
+.capaNome {
+    max-width: 90%;
+    color: #ffffff;
+    font-size: 24px;
+    font-weight: 900;
+    text-align: center;
+    letter-spacing: 1px;
+    text-shadow: 0 3px 12px #000000;
+}
+
+/* DESCONTOS */
+
+.desconto {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+
+    padding: 7px 11px;
+
+    background: #079FA5;
+    border-radius: 5px;
+
+    color: #ffffff;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+/* CORES DAS CAPAS */
+
+.battlefield {
+    background: linear-gradient(145deg, #075c65, #101820, #b65c26);
+}
+
+.cyberpunk {
+    background: linear-gradient(145deg, #e4c500, #b58d00, #252525);
+}
+
+.reddead {
+    background: linear-gradient(145deg, #7b211c, #291311, #a75a30);
+}
+
+.gta {
+    background: linear-gradient(145deg, #174b37, #222b20, #9a792e);
+}
+
+.elden {
+    background: linear-gradient(145deg, #88703c, #25271d, #080b0b);
+}
+
+.forza {
+    background: linear-gradient(145deg, #087b81, #246c49, #153e64);
+}
+
+.god {
+    background: linear-gradient(145deg, #527e9b, #263c52, #101820);
+}
+
+.hogwarts {
+    background: linear-gradient(145deg, #614b7b, #28223b, #11111a);
+}
+
+.witcher {
+    background: linear-gradient(145deg, #8c2929, #292020, #121212);
+}
+
+.resident {
+    background: linear-gradient(145deg, #741f1f, #252525, #080808);
+}
+
+.hogwarts2 {
+    background: linear-gradient(145deg, #372b62, #17182c, #101820);
+}
+
+.mortal {
+    background: linear-gradient(145deg, #a05b16, #41251c, #111111);
+}
+
+/* INFORMAÇÕES DOS JOGOS */
+
+.cardInfo {
+    padding: 17px;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.cardCabecalho {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.categoria {
+    padding: 5px 9px;
+
+    background: #079FA520;
+    border-radius: 20px;
+
+    color: #20c4c9;
+    font-size: 10px;
+    font-weight: bold;
+}
+
+.coracao {
+    color: #20c4c9;
+    font-size: 18px;
+}
+
+.cardInfo h3 {
+    color: #ffffff;
+    font-size: 16px;
+    margin: 13px 0 8px;
+}
+
+.cardInfo p {
+    min-height: 55px;
+    color: #9297ad;
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+/* PREÇOS E BOTÕES */
+
+.cardRodape {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+
+    margin-top: 18px;
+    padding-top: 15px;
+
+    border-top: 1px solid #34494a;
+}
+
+.precos {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.precos strong {
+    font-size: 17px;
+}
+
+.cardRodape button {
+    padding: 10px 13px;
+
+    background: #079FA5;
+    border: none;
+    border-radius: 6px;
+
+    color: #ffffff;
+    font-size: 11px;
+    font-weight: bold;
+
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.cardRodape button:hover {
+    background: #087C83;
+}
+
+/* NENHUM RESULTADO */
+
+.vazio {
+    padding: 60px 20px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+
+    background: #151b1c;
+    border: 1px solid #234447;
+    border-radius: 12px;
+}
+
+.vazio span {
+    color: #079FA5;
+    font-size: 50px;
+}
+
+.vazio h3 {
+    color: #ffffff;
+    margin: 15px 0 8px;
+}
+
+.vazio p {
+    color: #9297ad;
+    font-size: 13px;
+}
+
+/* RODAPÉ */
+
+.footer {
+    width: 100%;
+    max-width: 1150px;
+
+    margin-top: auto;
+    padding-top: 60px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+
+    color: #626982;
+    font-size: 11px;
+}
+
+.footer strong {
+    color: #ffffff;
+    font-size: 23px;
+}
+
+.footer p {
+    text-align: center;
+}
+
+.footer > span {
+    font-size: 9px;
+    letter-spacing: 1px;
+}
+
+/* TABLET */
+
+@media (max-width: 900px) {
+    .lista {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .destaquesLista {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .banner {
+        padding: 35px;
+    }
+
+    .bannerVisual {
+        width: 180px;
+    }
+}
+
+/* CELULAR */
+
+@media (max-width: 600px) {
+    .container {
+        padding: 20px 13px;
+    }
+
+    .header {
+        margin-bottom: 25px;
+    }
+
+    .header nav {
+        gap: 12px;
+    }
+
+    .header nav a {
+        font-size: 11px;
+    }
+
+    .banner {
+        min-height: auto;
+        padding: 30px 22px;
+    }
+
+    .banner h2 {
+        font-size: 30px;
+    }
+
+    .bannerVisual {
+        display: none;
+    }
+
+    .destaques,
+    .catalogo {
+        margin-top: 40px;
+    }
+
+    .destaquesLista {
+        grid-template-columns: 1fr;
+    }
+
+    .catalogoTitulo {
+        align-items: flex-start;
+    }
+
+    .catalogoTitulo h2 {
+        font-size: 22px;
+    }
+
+    .total {
+        min-width: 80px;
+        padding: 10px 7px;
+    }
+
+    .total strong {
+        font-size: 20px;
+    }
+
+    .total span {
+        font-size: 9px !important;
+    }
+
+    .ferramentas {
+        flex-direction: column;
+    }
+
+    .ferramentas select {
+        width: 100%;
+    }
+
+    .lista {
+        grid-template-columns: 1fr;
+    }
+
+    .capa {
+        height: 190px;
+    }
+
+    .footer {
+        flex-direction: column;
+        text-align: center;
+        padding-bottom: 10px;
+    }
+}
+
+@media (max-width: 380px) {
+    .header nav {
+        gap: 8px;
+    }
+
+    .header nav a {
+        font-size: 10px;
+    }
+
+    .catalogoTitulo {
+        flex-direction: column;
+    }
+
+    .total {
+        width: 100%;
+        box-sizing: border-box;
+    }
+}

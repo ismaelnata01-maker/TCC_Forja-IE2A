@@ -1,131 +1,167 @@
 
 "use client";
 
-import { useState } from "react";
+import Link from "next/link";
 import styles from "./page.module.css";
 
+const pedidos = [
+    {
+        id: "#IE2026001",
+        jogo: "Cyberpunk 2077",
+        data: "12/11/2026",
+        preco: "R$ 89,90",
+        status: "Concluído",
+    },
+    {
+        id: "#IE2026002",
+        jogo: "Red Dead Redemption 2",
+        data: "15/11/2026",
+        preco: "R$ 99,90",
+        status: "Concluído",
+    },
+    {
+        id: "#IE2026003",
+        jogo: "Elden Ring",
+        data: "18/11/2026",
+        preco: "R$ 149,90",
+        status: "Processando",
+    },
+];
+
+const jogos = [
+    { nome: "Cyberpunk 2077", categoria: "RPG", sigla: "CP" },
+    { nome: "Red Dead Redemption 2", categoria: "Aventura", sigla: "RDR2" },
+    { nome: "Elden Ring", categoria: "Ação / RPG", sigla: "ER" },
+];
+
 export default function Perfil() {
-    const [nome, setNome] = useState("Jogador IE2A");
-    const [email, setEmail] = useState("jogador@email.com");
-    const [editando, setEditando] = useState(false);
-
-    function salvar(e: React.FormEvent) {
-        e.preventDefault();
-        setEditando(false);
-        alert("Perfil atualizado com sucesso!");
-    }
-
     return (
-        <main className={styles.container}>
-
+        <main className={styles.main}>
             <header className={styles.header}>
-                <h1>IE<span>2A</span></h1>
-                <a href="/dashboard">Voltar aos jogos</a>
+                <Link href="/" className={styles.logo}>
+                    IE<span>2A</span>
+                </Link>
+
+                <nav>
+                    <Link href="/">Início</Link>
+                    <Link href="/promocoes">Promoções</Link>
+                    <Link href="/favoritos">Favoritos</Link>
+                </nav>
+
+                <span className={styles.usuarioHeader}>Minha conta</span>
             </header>
 
-            <section className={styles.perfil}>
-
-                <div className={styles.topo}>
-                    <div className={styles.avatar}>
-                        {nome.charAt(0).toUpperCase()}
-                    </div>
-
-                    <div className={styles.identificacao}>
-                        <h2>{nome}</h2>
-                        <p>Jogador da plataforma IE2A</p>
-                        <span>★ MEMBRO IE2A</span>
+            <section className={styles.conteudo}>
+                <div className={styles.tituloPagina}>
+                    <div>
+                        <span>ÁREA DO CLIENTE</span>
+                        <h1>Meu perfil</h1>
+                        <p>Gerencie seus dados, compras e jogos adquiridos.</p>
                     </div>
                 </div>
 
-                <div className={styles.divisor}></div>
+                <section className={styles.perfilCard}>
+                    <div className={styles.avatar}>AG</div>
 
-                <h3>Estatísticas</h3>
-
-                <div className={styles.estatisticas}>
-                    <div className={styles.card}>
-                        <span>🎮</span>
-                        <h2>12</h2>
-                        <p>Jogos jogados</p>
+                    <div className={styles.dadosUsuario}>
+                        <span>CLIENTE IE2A</span>
+                        <h2>Antony Guilherme</h2>
+                        <p>antony@email.com</p>
                     </div>
-
-                    <div className={styles.card}>
-                        <span>🏆</span>
-                        <h2>08</h2>
-                        <p>Conquistas</p>
-                    </div>
-
-                    <div className={styles.card}>
-                        <span>⭐</span>
-                        <h2>250</h2>
-                        <p>Pontuação</p>
-                    </div>
-                </div>
-
-                <div className={styles.divisor}></div>
-
-                <div className={styles.tituloInfo}>
-                    <h3>Informações da conta</h3>
 
                     <button
-                        onClick={() => setEditando(!editando)}
+                        className={styles.botaoEditar}
+                        onClick={() => alert("Em breve: editar perfil")}
                     >
-                        {editando ? "Cancelar" : "Editar perfil"}
+                        Editar perfil
                     </button>
-                </div>
+                </section>
 
-                {editando ? (
-
-                    <form onSubmit={salvar} className={styles.formulario}>
-
-                        <label>Nome</label>
-                        <input
-                            type="text"
-                            value={nome}
-                            onChange={(e) => setNome(e.target.value)}
-                            required
-                        />
-
-                        <label>E-mail</label>
-                        <input
-                            type="email"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            required
-                        />
-
-                        <button type="submit">
-                            Salvar alterações
-                        </button>
-
-                    </form>
-
-                ) : (
-
-                    <div className={styles.informacoes}>
+                <section className={styles.secao}>
+                    <div className={styles.secaoTitulo}>
                         <div>
-                            <span>Nome de usuário</span>
-                            <p>{nome}</p>
+                            <span>SUAS AQUISIÇÕES</span>
+                            <h2>Minha biblioteca</h2>
                         </div>
 
-                        <div>
-                            <span>E-mail</span>
-                            <p>{email}</p>
-                        </div>
+                        <span className={styles.quantidade}>03 jogos</span>
+                    </div>
 
+                    <div className={styles.jogosGrid}>
+                        {jogos.map((jogo, index) => (
+                            <article className={styles.jogoCard} key={index}>
+                                <div className={`${styles.capaJogo} ${styles[`capa${index + 1}`]}`}>
+                                    {jogo.sigla}
+                                </div>
+
+                                <div className={styles.infoJogo}>
+                                    <h3>{jogo.nome}</h3>
+                                    <p>{jogo.categoria}</p>
+                                    <span>Comprado</span>
+                                </div>
+                            </article>
+                        ))}
+                    </div>
+                </section>
+
+                <section className={styles.secao}>
+                    <div className={styles.secaoTitulo}>
                         <div>
-                            <span>Plataforma</span>
-                            <p>IE2A Games</p>
+                            <span>HISTÓRICO DA LOJA</span>
+                            <h2>Meus pedidos</h2>
                         </div>
                     </div>
 
-                )}
+                    <div className={styles.pedidosContainer}>
+                        {pedidos.map((pedido) => (
+                            <article className={styles.pedido} key={pedido.id}>
+                                <div className={styles.pedidoInfo}>
+                                    <span className={styles.pedidoId}>{pedido.id}</span>
+                                    <h3>{pedido.jogo}</h3>
+                                    <p>{pedido.data}</p>
+                                </div>
 
+                                <div className={styles.pedidoFinal}>
+                                    <strong>{pedido.preco}</strong>
+                                    <span
+                                        className={
+                                            pedido.status === "Concluído"
+                                                ? styles.concluido
+                                                : styles.processando
+                                        }
+                                    >
+                                        {pedido.status}
+                                    </span>
+                                </div>
+                            </article>
+                        ))}
+                    </div>
+                </section>
+
+                <section className={styles.atalhos}>
+                    <Link href="/favoritos">
+                        <span>♡</span>
+                        <div>
+                            <h3>Meus favoritos</h3>
+                            <p>Veja os jogos que você salvou.</p>
+                        </div>
+                        <strong>→</strong>
+                    </Link>
+
+                    <Link href="/promocoes">
+                        <span>％</span>
+                        <div>
+                            <h3>Ofertas disponíveis</h3>
+                            <p>Encontre novos jogos com desconto.</p>
+                        </div>
+                        <strong>→</strong>
+                    </Link>
+                </section>
             </section>
 
             <footer className={styles.footer}>
-                © 2026 IE2A - Todos os direitos reservados.
+                © 2026 IE2A Store — Todos os direitos reservados.
             </footer>
-
         </main>
     );
 }
