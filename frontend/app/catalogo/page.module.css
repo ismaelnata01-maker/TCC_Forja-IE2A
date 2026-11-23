@@ -1,0 +1,170 @@
+.main {
+    display: flex;
+    min-height: 100vh;
+    width: 100%;
+    background-color: #080B0D;
+    color: white;
+}
+
+/* MENU LATERAL */
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 250px;
+    height: 100vh;
+    background-color: #121719;
+    border-right: 1px solid #303A3D;
+    display: flex;
+    flex-direction: column;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+    border-bottom: 1px solid #303A3D;
+}
+
+.logo h1 {
+    font-size: 25px;
+}
+
+.navegacao {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    gap: 10px;
+}
+
+.navegacao a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: #A1AAAD;
+    text-decoration: none;
+    padding: 12px;
+    border-radius: 8px;
+    transition: 0.2s;
+}
+
+.navegacao a:hover,
+.navegacao a.ativo {
+    background-color: #123536;
+    color: #35D0CF;
+}
+
+/* CONTEÚDO */
+.conteudo {
+    flex: 1;
+    min-width: 0;
+    margin-left: 250px;
+    padding: 40px;
+}
+
+.headerCatalogo {
+    margin-bottom: 30px;
+}
+
+.headerCatalogo h1 {
+    font-size: 28px;
+    margin-bottom: 8px;
+}
+
+.headerCatalogo p {
+    color: #758184;
+    font-size: 14px;
+}
+
+/* GRID DE JOGOS */
+.listaJogos {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.cardJogo {
+    background-color: #121719;
+    border: 1px solid #252D30;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: transform 0.2s;
+}
+
+.cardJogo:hover {
+    transform: translateY(-5px);
+}
+
+.imagemJogo {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 2 / 3;
+    overflow: hidden;
+    background-color: #080B0D;
+}
+
+.imagemJogo img {
+    object-fit: contain;
+}
+
+.infoJogo {
+    padding: 15px;
+}
+
+.infoJogo p {
+    color: #35D0CF;
+    font-size: 12px;
+    margin-bottom: 8px;
+}
+
+.infoJogo h3 {
+    font-size: 16px;
+    margin-bottom: 12px;
+}
+
+.preco span {
+    color: #35D0CF;
+    font-weight: bold;
+}
+
+/* RESPONSIVIDADE PARA CELULAR */
+@media (max-width: 800px) {
+    .sidebar {
+        width: 190px;
+    }
+
+    .conteudo {
+        margin-left: 190px;
+        padding: 20px;
+    }
+
+    .listaJogos {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 600px) {
+    .main {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        position: relative;
+        width: 100%;
+        height: auto;
+    }
+
+    .navegacao {
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+
+    .conteudo {
+        margin-left: 0;
+        padding: 15px;
+    }
+
+    .listaJogos {
+        grid-template-columns: 1fr;
+    }
+}
