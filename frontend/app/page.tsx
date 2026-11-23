@@ -1,7 +1,9 @@
+
 "use client";
 
 import { useState } from "react";
 import styles from "./page.module.css";
+import Button from "@/componentes/button";
 
 export default function Login() {
     const [email, setEmail] = useState("");
@@ -29,6 +31,7 @@ export default function Login() {
                 </div>
 
                 <h2>Bem-vindo de volta!</h2>
+
                 <p className={styles.subtitulo}>
                     Entre na sua conta para continuar jogando.
                 </p>
@@ -36,8 +39,10 @@ export default function Login() {
                 <form onSubmit={entrar}>
 
                     <div className={styles.campo}>
-                        <label>E-mail</label>
+                        <label htmlFor="email">E-mail</label>
+
                         <input
+                            id="email"
                             type="email"
                             placeholder="Digite seu e-mail"
                             value={email}
@@ -46,8 +51,10 @@ export default function Login() {
                     </div>
 
                     <div className={styles.campo}>
-                        <label>Senha</label>
+                        <label htmlFor="senha">Senha</label>
+
                         <input
+                            id="senha"
                             type="password"
                             placeholder="Digite sua senha"
                             value={senha}
@@ -55,13 +62,13 @@ export default function Login() {
                         />
                     </div>
 
-                    <button type="submit">
+                    <Button type="submit" variant="primary">
                         ENTRAR
-                    </button>
+                    </Button>
 
                 </form>
 
-               <div className={styles.rodape}>
+                <div className={styles.rodape}>
                     © 2026 IE2A - Todos os direitos reservados.
                 </div>
 

@@ -477,19 +477,6 @@
         width: 100%;
     }
 
-    .estatisticas {
-        grid-template-columns: 1fr;
-        gap: 12px;
-    }
-
-    .estatisticaCard {
-        padding: 17px;
-    }
-
-    .estatisticaCard strong {
-        font-size: 23px;
-    }
-
     .jogosGrid {
         grid-template-columns: 1fr;
     }

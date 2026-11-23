@@ -77,26 +77,6 @@ export default function Perfil() {
                     </button>
                 </section>
 
-                <section className={styles.estatisticas}>
-                    <div className={styles.estatisticaCard}>
-                        <span>JOGOS ADQUIRIDOS</span>
-                        <strong>03</strong>
-                        <p>Na sua biblioteca</p>
-                    </div>
-
-                    <div className={styles.estatisticaCard}>
-                        <span>PEDIDOS REALIZADOS</span>
-                        <strong>03</strong>
-                        <p>Compras na loja</p>
-                    </div>
-
-                    <div className={styles.estatisticaCard}>
-                        <span>TOTAL EM COMPRAS</span>
-                        <strong>R$ 339,70</strong>
-                        <p>Valor acumulado</p>
-                    </div>
-                </section>
-
                 <section className={styles.secao}>
                     <div className={styles.secaoTitulo}>
                         <div>
