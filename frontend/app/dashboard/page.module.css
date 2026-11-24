@@ -11,7 +11,6 @@
     flex: 1;
     min-width: 0;
     min-height: 100vh;
-
     margin-left: 250px;
     padding: 25px 35px;
 
@@ -94,7 +93,6 @@
 .banner {
     position: relative;
     min-height: 310px;
-
     display: flex;
     align-items: center;
 
@@ -108,17 +106,14 @@
 .bannerConteudo {
     position: relative;
     z-index: 2;
-
     width: 55%;
     padding: 35px 40px;
-
     color: #FFFFFF;
 }
 
 .bannerTag {
     display: inline-block;
     margin-bottom: 16px;
-
     color: #079FA5;
     font-size: 11px;
     font-weight: 800;
@@ -135,7 +130,6 @@
 .bannerConteudo p {
     max-width: 390px;
     margin: 16px 0 22px;
-
     color: #AAAAAA;
     font-size: 14px;
     line-height: 1.6;
@@ -144,18 +138,15 @@
 .botaoBanner {
     width: fit-content;
     min-height: 43px;
-
     display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: 10px;
-
     padding: 0 18px;
 
     background: #079FA5;
     color: #FFFFFF;
     border-radius: 8px;
-
     text-decoration: none;
     font-size: 13px;
     font-weight: 700;
@@ -170,10 +161,8 @@
 .bannerImagem {
     position: absolute;
     z-index: 0;
-
     top: 0;
     right: 0;
-
     width: 55%;
     height: 100%;
 }
@@ -182,7 +171,6 @@
     content: "";
     position: absolute;
     inset: 0;
-
     background: linear-gradient(
         90deg,
         #101010 0%,
@@ -212,10 +200,9 @@
 }
 
 .subtitulo {
-    display: flex;
+    display: inline-flex;
     align-items: center;
     gap: 6px;
-
     margin-bottom: 7px;
 
     color: #079FA5;
@@ -249,7 +236,7 @@
     gap: 11px;
 }
 
-/* CARDS */
+/* LISTA DE JOGOS */
 
 .listaJogos {
     display: grid;
@@ -257,126 +244,13 @@
     gap: 18px;
 }
 
-.cardJogo {
-    min-width: 0;
-    overflow: hidden;
-
-    background: #111111;
-    border: 1px solid #252525;
-    border-radius: 12px;
-
-    transition: 0.25s;
-}
-
-.cardJogo:hover {
-    transform: translateY(-4px);
-    border-color: #079FA5;
-    box-shadow: 0 8px 22px rgba(7, 159, 165, 0.12);
-}
-
-.imagemJogo {
-    position: relative;
-    width: 100%;
-    height: 165px;
-    overflow: hidden;
-    background: #202020;
-}
-
-.imagemJogo img {
-    object-fit: cover;
-    transition: transform 0.3s;
-}
-
-.cardJogo:hover .imagemJogo img {
-    transform: scale(1.05);
-}
-
-.infoJogo {
-    display: flex;
-    flex-direction: column;
-    gap: 7px;
-    padding: 14px;
-}
-
-.infoJogo > span {
-    color: #888888;
-    font-size: 11px;
-}
-
-.infoJogo h3 {
-    margin: 0;
-    color: #FFFFFF;
-    font-size: 14px;
-    font-weight: 800;
-    line-height: 1.4;
-}
-
-.infoJogo > strong {
-    margin-top: 3px;
-    color: #079FA5;
-    font-size: 15px;
-}
-
-/* PROMOÇÕES */
-
-.seloDesconto {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    z-index: 2;
-
-    padding: 6px 9px;
-
-    background: #C01315;
-    color: #FFFFFF;
-    border-radius: 6px;
-
-    font-size: 11px;
-    font-weight: 800;
-}
-
-.precosPromocao {
-    display: flex;
-    flex-direction: column;
-    gap: 3px;
-    margin-top: 3px;
-}
-
-.precosPromocao del {
-    color: #777777;
-    font-size: 11px;
-}
-
-.precosPromocao strong {
-    color: #079FA5;
-    font-size: 15px;
-}
-
-/* AVALIAÇÃO */
-
-.avaliacao {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    margin-top: 3px;
-
-    color: #D2A20B;
-    font-size: 11px;
-}
-
-.avaliacao span {
-    color: #888888;
-}
-
-/* FOOTER */
+/* RODAPÉ */
 
 .footer {
     margin-top: auto;
     padding: 20px 0 5px;
-
     color: #777777;
     border-top: 1px solid #252525;
-
     font-size: 12px;
     text-align: center;
 }
@@ -391,13 +265,7 @@
     .listaJogos {
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
-
-    .imagemJogo {
-        height: 190px;
-    }
 }
-
-/* SIDEBAR MENOR */
 
 @media (max-width: 900px) {
     .conteudo {
@@ -514,32 +382,11 @@
     .listaJogos {
         gap: 12px;
     }
-
-    .imagemJogo {
-        height: 125px;
-    }
-
-    .infoJogo {
-        padding: 10px;
-    }
-
-    .infoJogo h3 {
-        font-size: 12px;
-    }
-
-    .infoJogo > strong,
-    .precosPromocao strong {
-        font-size: 13px;
-    }
 }
 
 @media (max-width: 370px) {
     .listaJogos {
         grid-template-columns: 1fr;
-    }
-
-    .imagemJogo {
-        height: 175px;
     }
 
     .tituloSecao {

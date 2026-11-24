@@ -1,9 +1,11 @@
+
 "use client";
 
 import Image from "next/image";
 import Link from "next/link";
 import styles from "./page.module.css";
 import Sidebar from "@/componentes/sidebar";
+import CardJogo from "@/componentes/CardJogo";
 
 import {
     Search,
@@ -12,10 +14,7 @@ import {
     ArrowRight,
     Flame,
     Tag,
-    Star,
 } from "lucide-react";
-import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
 
 const jogos = [
     {
@@ -165,6 +164,8 @@ export default function Dashboard() {
                     </div>
                 </section>
 
+                {/* JOGOS EM DESTAQUE */}
+
                 <section className={styles.secao}>
                     <div className={styles.tituloSecao}>
                         <div>
@@ -182,25 +183,18 @@ export default function Dashboard() {
 
                     <div className={styles.listaJogos}>
                         {jogos.map((jogo) => (
-                            <article className={styles.cardJogo} key={jogo.id}>
-                                <div className={styles.imagemJogo}>
-                                    <Image
-                                        src={jogo.imagem}
-                                        alt={jogo.nome}
-                                        fill
-                                        sizes="(max-width: 750px) 50vw, 25vw"
-                                    />
-                                </div>
-
-                                <div className={styles.infoJogo}>
-                                    <span>{jogo.categoria}</span>
-                                    <h3>{jogo.nome}</h3>
-                                    <strong>{jogo.preco}</strong>
-                                </div>
-                            </article>
+                            <CardJogo
+                                key={jogo.id}
+                                nome={jogo.nome}
+                                imagem={jogo.imagem}
+                                categoria={jogo.categoria}
+                                preco={jogo.preco}
+                            />
                         ))}
                     </div>
                 </section>
+
+                {/* PROMOÇÕES */}
 
                 <section className={styles.secao}>
                     <div className={styles.tituloSecao}>
@@ -220,35 +214,19 @@ export default function Dashboard() {
 
                     <div className={styles.listaJogos}>
                         {promocoes.map((jogo) => (
-                            <article
-                                className={styles.cardJogo}
+                            <CardJogo
                                 key={jogo.id}
-                            >
-                                <div className={styles.imagemJogo}>
-                                    <Image
-                                        src={jogo.imagem}
-                                        alt={jogo.nome}
-                                        fill
-                                        sizes="(max-width: 750px) 50vw, 25vw"
-                                    />
-
-                                    <span className={styles.seloDesconto}>
-                                        {jogo.desconto}
-                                    </span>
-                                </div>
-
-                                <div className={styles.infoJogo}>
-                                    <h3>{jogo.nome}</h3>
-
-                                    <div className={styles.precosPromocao}>
-                                        <del>{jogo.precoAntigo}</del>
-                                        <strong>{jogo.preco}</strong>
-                                    </div>
-                                </div>
-                            </article>
+                                nome={jogo.nome}
+                                imagem={jogo.imagem}
+                                precoAntigo={jogo.precoAntigo}
+                                preco={jogo.preco}
+                                desconto={jogo.desconto}
+                            />
                         ))}
                     </div>
                 </section>
+
+                {/* MAIS POPULARES */}
 
                 <section className={styles.secao}>
                     <div className={styles.tituloSecao}>
@@ -268,28 +246,13 @@ export default function Dashboard() {
 
                     <div className={styles.listaJogos}>
                         {populares.map((jogo) => (
-                            <article
-                                className={styles.cardJogo}
+                            <CardJogo
                                 key={jogo.id}
-                            >
-                                <div className={styles.imagemJogo}>
-                                    <Image
-                                        src={jogo.imagem}
-                                        alt={jogo.nome}
-                                        fill
-                                        sizes="(max-width: 750px) 50vw, 25vw"
-                                    />
-                                </div>
-
-                                <div className={styles.infoJogo}>
-                                    <span>{jogo.categoria}</span>
-                                    <h3>{jogo.nome}</h3>
-                                    <div className={styles.avaliacao}>
-                                        <Star size={15} fill="currentColor" />
-                                        <span>Em alta na loja</span>
-                                    </div>
-                                </div>
-                            </article>
+                                nome={jogo.nome}
+                                imagem={jogo.imagem}
+                                categoria={jogo.categoria}
+                                avaliacao="Em alta na loja"
+                            />
                         ))}
                     </div>
                 </section>
