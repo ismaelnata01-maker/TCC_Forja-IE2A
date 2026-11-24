@@ -12,7 +12,9 @@ function parseId(value: string | string[] | undefined): number | null {
 
 function userId(request: Request): number | null {
     const user = request.body?.user as { id?: unknown } | undefined;
-    return typeof user?.id === "number" ? user.id : null;
+    return typeof user?.id === "number" && Number.isSafeInteger(user.id) && user.id > 0
+        ? user.id
+        : null;
 }
 
 export default {

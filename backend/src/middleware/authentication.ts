@@ -28,8 +28,7 @@ export function authentication(
 
         next();
 
-    } catch (e) {
-        console.error(e);
+    } catch {
         return response.status(401).json("Não autenticado");
     }
 }

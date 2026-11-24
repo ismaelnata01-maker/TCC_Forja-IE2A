@@ -120,7 +120,9 @@ export default {
                     senha: true,
                 }
             })
-            
+            if (!funcionario) {
+                return response.status(404).json("Usuário não encontrado");
+            }
             return response.status(200).json(funcionario);
         } catch (e) {
             return handleErrors(e, response);
@@ -160,7 +162,7 @@ export default {
                 data: {
                     nome: String(nome).trim(),
                     email: emailNormalizado,
-                    cargo: typeof cargo === "string" && cargo.trim() ? cargo.trim() : null,
+                    cargo: "FUNCIONARIO",
                     ...(nascimento ? { nascimento: new Date(nascimento) } : {}),
                     cpf: cpfNormalizado,
                     senha: bcrypt.hashSync(senha, Number(process.env.BCRYPT_ROUNDS || 10)),
@@ -172,7 +174,16 @@ export default {
                 }
             });
 
-            return response.status(201).json(funcionario);
+            const jwtSecret = process.env.JWT_SECRET;
+            if (!jwtSecret) {
+                throw new Error("JWT_SECRET não configurado");
+            }
+            const token = jwt.sign(
+                { id: funcionario.id, cargo: funcionario.cargo },
+                jwtSecret,
+                { expiresIn: "1d" },
+            );
+            return response.status(201).json(token);
 
         } catch (e) {
             return handleErrors(e, response); 
@@ -186,20 +197,44 @@ export default {
                 return response.status(400).json("ID inválido");
             }
             const { nome, email, cargo, nascimento, cpf, senha, telefone, endereco } = request.body;
+            if (email !== undefined) {
+                if (typeof email !== "string" || !email.trim()) {
+                    return response.status(400).json("E-mail inválido");
+                }
+            }
+            if (cpf !== undefined) {
+                const cpfNormalizado = normalizeCpf(cpf);
+                if (cpfNormalizado.length !== 11) {
+                    return response.status(400).json("CPF inválido");
+                }
+            }
+            if (senha !== undefined && (typeof senha !== "string" || senha.length < 6)) {
+                return response.status(400).json("A senha deve ter pelo menos 6 caracteres");
+            }
+            if (nascimento !== undefined && (typeof nascimento !== "string" || Number.isNaN(new Date(nascimento).getTime()))) {
+                return response.status(400).json("Data de nascimento inválida");
+            }
+            const user = request.body.user as { cargo?: unknown } | undefined;
+            if (cargo !== undefined && user?.cargo !== "ADMIN") {
+                return response.status(403).json("Apenas administradores podem alterar o cargo");
+            }
+            if (cargo !== undefined && cargo !== "ADMIN" && cargo !== "FUNCIONARIO") {
+                return response.status(400).json("Cargo inválido");
+            }
 
             const funcionario = await prisma.funcionario.update({
                 where: {
                     id,
                 },
                 data: {
-                    nome,
-                    email,
-                    cargo,
-                    ...(nascimento ? { nascimento: new Date(nascimento) } : {}),
-                    cpf,
-                    ...(senha ? { senha: bcrypt.hashSync(senha, Number(process.env.BCRYPT_ROUNDS || 10)) } : {}),
-                    telefone,
-                    endereco,
+                    ...(nome !== undefined ? { nome: String(nome).trim() } : {}),
+                    ...(email !== undefined ? { email: String(email).trim().toLowerCase() } : {}),
+                    ...(cargo !== undefined ? { cargo } : {}),
+                    ...(nascimento !== undefined ? { nascimento: nascimento ? new Date(nascimento) : null } : {}),
+                    ...(cpf !== undefined ? { cpf: normalizeCpf(cpf) } : {}),
+                    ...(senha !== undefined ? { senha: bcrypt.hashSync(senha, Number(process.env.BCRYPT_ROUNDS || 10)) } : {}),
+                    ...(telefone !== undefined ? { telefone: typeof telefone === "string" ? telefone : null } : {}),
+                    ...(endereco !== undefined ? { endereco: typeof endereco === "string" ? endereco : null } : {}),
                 },
                 omit:{
                     senha: true,

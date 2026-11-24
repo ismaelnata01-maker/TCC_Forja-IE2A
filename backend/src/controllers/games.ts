@@ -10,11 +10,6 @@ function parseId(value: string | string[] | undefined): number | null {
     return Number.isSafeInteger(id) && id > 0 ? id : null;
 }
 
-function userId(request: Request): number | null {
-    const user = request.body?.user as { id?: unknown } | undefined;
-    return typeof user?.id === "number" ? user.id : null;
-}
-
 export default {
     list: async (_request: Request, response: Response) => {
         try {
@@ -46,18 +41,29 @@ export default {
     create: async (request: Request, response: Response) => {
         try {
             const { titulo, descricao, genero, plataforma, imagemUrl, anoLancamento, preco } = request.body;
-            if (!titulo || !descricao || !genero || !plataforma) {
+            if (
+                typeof titulo !== "string" || !titulo.trim() ||
+                typeof descricao !== "string" || !descricao.trim() ||
+                typeof genero !== "string" || !genero.trim() ||
+                typeof plataforma !== "string" || !plataforma.trim()
+            ) {
                 return response.status(400).json("Dados do jogo incompletos");
+            }
+            const ano = anoLancamento === undefined ? null : Number(anoLancamento);
+            const precoNumero = preco === undefined ? 0 : Number(preco);
+            if ((ano !== null && (!Number.isSafeInteger(ano) || ano < 1950 || ano > 2100)) ||
+                !Number.isFinite(precoNumero) || precoNumero < 0) {
+                return response.status(400).json("Dados numericos do jogo invalidos");
             }
             const jogo = await prisma.jogo.create({
                 data: {
-                    titulo,
-                    descricao,
-                    genero,
-                    plataforma,
+                    titulo: titulo.trim(),
+                    descricao: descricao.trim(),
+                    genero: genero.trim(),
+                    plataforma: plataforma.trim(),
                     imagemUrl: imagemUrl || null,
-                    anoLancamento: anoLancamento ? Number(anoLancamento) : null,
-                    preco: preco === undefined ? 0 : Number(preco),
+                    anoLancamento: ano,
+                    preco: precoNumero,
                 },
             });
             return response.status(201).json(jogo);
@@ -73,6 +79,21 @@ export default {
                 return response.status(400).json("ID inválido");
             }
             const { titulo, descricao, genero, plataforma, imagemUrl, anoLancamento, preco } = request.body;
+            if ((titulo !== undefined && (typeof titulo !== "string" || !titulo.trim())) ||
+                (descricao !== undefined && (typeof descricao !== "string" || !descricao.trim())) ||
+                (genero !== undefined && (typeof genero !== "string" || !genero.trim())) ||
+                (plataforma !== undefined && (typeof plataforma !== "string" || !plataforma.trim()))) {
+                return response.status(400).json("Dados do jogo invalidos");
+            }
+            if (anoLancamento !== undefined) {
+                const ano = anoLancamento === null || anoLancamento === "" ? null : Number(anoLancamento);
+                if (ano !== null && (!Number.isSafeInteger(ano) || ano < 1950 || ano > 2100)) {
+                    return response.status(400).json("Ano de lancamento invalido");
+                }
+            }
+            if (preco !== undefined && (!Number.isFinite(Number(preco)) || Number(preco) < 0)) {
+                return response.status(400).json("Preco invalido");
+            }
             const jogo = await prisma.jogo.update({
                 where: { id },
                 data: {
@@ -99,115 +120,6 @@ export default {
             }
             await prisma.jogo.delete({ where: { id } });
             return response.status(200).json("Jogo removido");
-        } catch (error) {
-            return handleErrors(error, response);
-        }
-    },
-
-    listWishlist: async (request: Request, response: Response) => {
-        try {
-            const funcionarioId = userId(request);
-            if (!funcionarioId) {
-                return response.status(401).json("Não autenticado");
-            }
-            const itens = await prisma.listaDesejos.findMany({
-                where: { funcionarioId },
-                include: { jogo: true },
-                orderBy: { createdAt: "desc" },
-            });
-            return response.status(200).json(itens);
-        } catch (error) {
-            return handleErrors(error, response);
-        }
-    },
-
-    addWishlist: async (request: Request, response: Response) => {
-        try {
-            const funcionarioId = userId(request);
-            const jogoId = parseId(request.params.jogoId);
-            if (!funcionarioId) return response.status(401).json("Não autenticado");
-            if (jogoId === null) return response.status(400).json("ID inválido");
-            const item = await prisma.listaDesejos.create({ data: { funcionarioId, jogoId }, include: { jogo: true } });
-            return response.status(201).json(item);
-        } catch (error) {
-            return handleErrors(error, response);
-        }
-    },
-
-    removeWishlist: async (request: Request, response: Response) => {
-        try {
-            const funcionarioId = userId(request);
-            const jogoId = parseId(request.params.jogoId);
-            if (!funcionarioId) return response.status(401).json("Não autenticado");
-            if (jogoId === null) return response.status(400).json("ID inválido");
-            await prisma.listaDesejos.delete({ where: { funcionarioId_jogoId: { funcionarioId, jogoId } } });
-            return response.status(200).json("Jogo removido da lista de desejos");
-        } catch (error) {
-            return handleErrors(error, response);
-        }
-    },
-
-    listLibrary: async (request: Request, response: Response) => {
-        try {
-            const funcionarioId = userId(request);
-            if (!funcionarioId) return response.status(401).json("Não autenticado");
-            const itens = await prisma.biblioteca.findMany({
-                where: { funcionarioId },
-                include: { jogo: true },
-                orderBy: { updatedAt: "desc" },
-            });
-            return response.status(200).json(itens);
-        } catch (error) {
-            return handleErrors(error, response);
-        }
-    },
-
-    addToLibrary: async (request: Request, response: Response) => {
-        try {
-            const funcionarioId = userId(request);
-            const jogoId = parseId(request.params.jogoId);
-            if (!funcionarioId) return response.status(401).json("Não autenticado");
-            if (jogoId === null) return response.status(400).json("ID inválido");
-            const item = await prisma.biblioteca.create({
-                data: { funcionarioId, jogoId, status: "NAO_INICIADO" },
-                include: { jogo: true },
-            });
-            return response.status(201).json(item);
-        } catch (error) {
-            return handleErrors(error, response);
-        }
-    },
-
-    updateLibrary: async (request: Request, response: Response) => {
-        try {
-            const funcionarioId = userId(request);
-            const jogoId = parseId(request.params.jogoId);
-            if (!funcionarioId) return response.status(401).json("Não autenticado");
-            if (jogoId === null) return response.status(400).json("ID inválido");
-            const { horasJogadas, status, conquistas } = request.body;
-            const item = await prisma.biblioteca.update({
-                where: { funcionarioId_jogoId: { funcionarioId, jogoId } },
-                data: {
-                    ...(horasJogadas !== undefined ? { horasJogadas: Number(horasJogadas) } : {}),
-                    ...(status !== undefined ? { status } : {}),
-                    ...(conquistas !== undefined ? { conquistas: Number(conquistas) } : {}),
-                },
-                include: { jogo: true },
-            });
-            return response.status(200).json(item);
-        } catch (error) {
-            return handleErrors(error, response);
-        }
-    },
-
-    removeFromLibrary: async (request: Request, response: Response) => {
-        try {
-            const funcionarioId = userId(request);
-            const jogoId = parseId(request.params.jogoId);
-            if (!funcionarioId) return response.status(401).json("Não autenticado");
-            if (jogoId === null) return response.status(400).json("ID inválido");
-            await prisma.biblioteca.delete({ where: { funcionarioId_jogoId: { funcionarioId, jogoId } } });
-            return response.status(200).json("Jogo removido da biblioteca");
         } catch (error) {
             return handleErrors(error, response);
         }
