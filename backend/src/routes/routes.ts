@@ -1,6 +1,6 @@
 import { Router } from "express";
 import adminController from "../controllers/admin";
-import gamesController from "../controllers/games";
+import gamesController from "../controllers/jogos";
 import { authentication } from "../middleware/authentication";
 import { isAdmin } from "../middleware/permissions";
 
