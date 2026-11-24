@@ -10,11 +10,6 @@ function parseId(value: string | string[] | undefined): number | null {
     return Number.isSafeInteger(id) && id > 0 ? id : null;
 }
 
-function userId(request: Request): number | null {
-    const user = request.body?.user as { id?: unknown } | undefined;
-    return typeof user?.id === "number" ? user.id : null;
-}
-
 export default {
     list: async (_request: Request, response: Response) => {
         try {
@@ -99,115 +94,6 @@ export default {
             }
             await prisma.jogo.delete({ where: { id } });
             return response.status(200).json("Jogo removido");
-        } catch (error) {
-            return handleErrors(error, response);
-        }
-    },
-
-    listWishlist: async (request: Request, response: Response) => {
-        try {
-            const funcionarioId = userId(request);
-            if (!funcionarioId) {
-                return response.status(401).json("Não autenticado");
-            }
-            const itens = await prisma.listaDesejos.findMany({
-                where: { funcionarioId },
-                include: { jogo: true },
-                orderBy: { createdAt: "desc" },
-            });
-            return response.status(200).json(itens);
-        } catch (error) {
-            return handleErrors(error, response);
-        }
-    },
-
-    addWishlist: async (request: Request, response: Response) => {
-        try {
-            const funcionarioId = userId(request);
-            const jogoId = parseId(request.params.jogoId);
-            if (!funcionarioId) return response.status(401).json("Não autenticado");
-            if (jogoId === null) return response.status(400).json("ID inválido");
-            const item = await prisma.listaDesejos.create({ data: { funcionarioId, jogoId }, include: { jogo: true } });
-            return response.status(201).json(item);
-        } catch (error) {
-            return handleErrors(error, response);
-        }
-    },
-
-    removeWishlist: async (request: Request, response: Response) => {
-        try {
-            const funcionarioId = userId(request);
-            const jogoId = parseId(request.params.jogoId);
-            if (!funcionarioId) return response.status(401).json("Não autenticado");
-            if (jogoId === null) return response.status(400).json("ID inválido");
-            await prisma.listaDesejos.delete({ where: { funcionarioId_jogoId: { funcionarioId, jogoId } } });
-            return response.status(200).json("Jogo removido da lista de desejos");
-        } catch (error) {
-            return handleErrors(error, response);
-        }
-    },
-
-    listLibrary: async (request: Request, response: Response) => {
-        try {
-            const funcionarioId = userId(request);
-            if (!funcionarioId) return response.status(401).json("Não autenticado");
-            const itens = await prisma.biblioteca.findMany({
-                where: { funcionarioId },
-                include: { jogo: true },
-                orderBy: { updatedAt: "desc" },
-            });
-            return response.status(200).json(itens);
-        } catch (error) {
-            return handleErrors(error, response);
-        }
-    },
-
-    addToLibrary: async (request: Request, response: Response) => {
-        try {
-            const funcionarioId = userId(request);
-            const jogoId = parseId(request.params.jogoId);
-            if (!funcionarioId) return response.status(401).json("Não autenticado");
-            if (jogoId === null) return response.status(400).json("ID inválido");
-            const item = await prisma.biblioteca.create({
-                data: { funcionarioId, jogoId, status: "NAO_INICIADO" },
-                include: { jogo: true },
-            });
-            return response.status(201).json(item);
-        } catch (error) {
-            return handleErrors(error, response);
-        }
-    },
-
-    updateLibrary: async (request: Request, response: Response) => {
-        try {
-            const funcionarioId = userId(request);
-            const jogoId = parseId(request.params.jogoId);
-            if (!funcionarioId) return response.status(401).json("Não autenticado");
-            if (jogoId === null) return response.status(400).json("ID inválido");
-            const { horasJogadas, status, conquistas } = request.body;
-            const item = await prisma.biblioteca.update({
-                where: { funcionarioId_jogoId: { funcionarioId, jogoId } },
-                data: {
-                    ...(horasJogadas !== undefined ? { horasJogadas: Number(horasJogadas) } : {}),
-                    ...(status !== undefined ? { status } : {}),
-                    ...(conquistas !== undefined ? { conquistas: Number(conquistas) } : {}),
-                },
-                include: { jogo: true },
-            });
-            return response.status(200).json(item);
-        } catch (error) {
-            return handleErrors(error, response);
-        }
-    },
-
-    removeFromLibrary: async (request: Request, response: Response) => {
-        try {
-            const funcionarioId = userId(request);
-            const jogoId = parseId(request.params.jogoId);
-            if (!funcionarioId) return response.status(401).json("Não autenticado");
-            if (jogoId === null) return response.status(400).json("ID inválido");
-            await prisma.biblioteca.delete({ where: { funcionarioId_jogoId: { funcionarioId, jogoId } } });
-            return response.status(200).json("Jogo removido da biblioteca");
         } catch (error) {
             return handleErrors(error, response);
         }

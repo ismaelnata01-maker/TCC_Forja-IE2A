@@ -1,5 +1,7 @@
 import { Router } from "express";
 import adminController from "../controllers/admin";
+import bibliotecaController from "../controllers/biblioteca";
+import desejosController from "../controllers/desejos";
 import gamesController from "../controllers/games";
 import { authentication } from "../middleware/authentication";
 import { isAdmin } from "../middleware/permissions";
@@ -16,13 +18,13 @@ router.post("/jogos", authentication, isAdmin, gamesController.create);
 router.put("/jogos/:id", authentication, isAdmin, gamesController.update);
 router.delete("/jogos/:id", authentication, isAdmin, gamesController.delete);
 
-router.get("/desejos", authentication, gamesController.listWishlist);
-router.post("/desejos/:jogoId", authentication, gamesController.addWishlist);
-router.delete("/desejos/:jogoId", authentication, gamesController.removeWishlist);
+router.get("/desejos", authentication, desejosController.list);
+router.post("/desejos/:jogoId", authentication, desejosController.add);
+router.delete("/desejos/:jogoId", authentication, desejosController.remove);
 
-router.get("/biblioteca", authentication, gamesController.listLibrary);
-router.post("/biblioteca/:jogoId", authentication, gamesController.addToLibrary);
-router.put("/biblioteca/:jogoId", authentication, gamesController.updateLibrary);
-router.delete("/biblioteca/:jogoId", authentication, gamesController.removeFromLibrary);
+router.get("/biblioteca", authentication, bibliotecaController.list);
+router.post("/biblioteca/:jogoId", authentication, bibliotecaController.add);
+router.put("/biblioteca/:jogoId", authentication, bibliotecaController.update);
+router.delete("/biblioteca/:jogoId", authentication, bibliotecaController.remove);
 
 export default router;
