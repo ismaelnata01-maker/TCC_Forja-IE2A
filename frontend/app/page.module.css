@@ -1,0 +1,173 @@
+
+.container {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+
+    background:
+        radial-gradient(circle at top left, #10383a, transparent 40%),
+        radial-gradient(circle at bottom right, #102b2d, transparent 40%),
+        #050505;
+}
+
+.login {
+    width: 100%;
+    max-width: 420px;
+    padding: 40px;
+
+    background: #151b1c;
+    border: 1px solid #234447;
+    border-radius: 18px;
+
+    box-shadow: 0 15px 50px #00000070;
+}
+
+.logo {
+    text-align: center;
+    margin-bottom: 35px;
+}
+
+.logo h1 {
+    font-size: 48px;
+    font-weight: 900;
+    color: #ffffff;
+    letter-spacing: 3px;
+}
+
+.logo h1 span {
+    color: #079FA5;
+}
+
+.logo p {
+    color: #9297ad;
+    font-size: 10px;
+    letter-spacing: 3px;
+    margin-top: 5px;
+}
+
+.login h2 {
+    color: #ffffff;
+    font-size: 25px;
+    margin-bottom: 8px;
+}
+
+.subtitulo {
+    color: #9297ad;
+    font-size: 13px;
+    margin-bottom: 28px;
+}
+
+.campo {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+    margin-bottom: 20px;
+}
+
+.campo label {
+    color: #e1e3ef;
+    font-size: 14px;
+}
+
+.campo input {
+    width: 100%;
+    padding: 14px;
+
+    background: #202829;
+    border: 1px solid #34494a;
+    border-radius: 8px;
+
+    color: #ffffff;
+    font-size: 14px;
+    outline: none;
+
+    box-sizing: border-box;
+    transition: 0.3s;
+}
+
+.campo input:focus {
+    border-color: #079FA5;
+    box-shadow: 0 0 8px #079FA550;
+}
+
+.campo input::placeholder {
+    color: #777d96;
+}
+
+.login button {
+    width: 100%;
+    padding: 14px;
+
+    background: linear-gradient(90deg, #079FA5, #087C83);
+    border: none;
+    border-radius: 8px;
+
+    color: white;
+    font-size: 15px;
+    font-weight: bold;
+    letter-spacing: 1px;
+
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.login button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 20px #079FA560;
+}
+
+.login button:disabled {
+    cursor: wait;
+    opacity: 0.7;
+}
+
+.erro {
+    margin-top: 14px;
+    padding: 10px;
+    border-radius: 6px;
+    background: #c0131520;
+    color: #ff8587;
+    font-size: 12px;
+    text-align: center;
+}
+
+.cadastro {
+    margin-top: 20px;
+    color: #9297ad;
+    font-size: 13px;
+    text-align: center;
+}
+
+.cadastro a {
+    color: #47bbc0;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.rodape {
+    text-align: center;
+    color: #626982;
+    font-size: 10px;
+    margin-top: 35px;
+}
+
+/* CELULAR */
+@media (max-width: 480px) {
+    .login {
+        padding: 28px 22px;
+    }
+
+    .logo h1 {
+        font-size: 40px;
+    }
+
+    .login h2 {
+        font-size: 22px;
+    }
+
+    .opcoes {
+        font-size: 11px;
+    }
+}

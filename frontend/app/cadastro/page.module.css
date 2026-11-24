@@ -1,0 +1,165 @@
+.container {
+    min-height: 100vh;
+    display: grid;
+    place-items: center;
+    padding: 32px 20px;
+    background:
+        radial-gradient(circle at 15% 15%, #153b3d 0, transparent 28%),
+        radial-gradient(circle at 85% 85%, #102a2c 0, transparent 30%),
+        #080a0a;
+}
+
+.card {
+    width: min(760px, 100%);
+    padding: 34px 40px;
+    border: 1px solid #27494b;
+    border-radius: 18px;
+    background: #151b1c;
+    box-shadow: 0 18px 60px #0009;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
+}
+
+.logo a {
+    width: 36px;
+    height: 36px;
+    display: grid;
+    place-items: center;
+    border: 1px solid #34494a;
+    border-radius: 8px;
+    color: #dfe7e7;
+    text-decoration: none;
+}
+
+.logo div {
+    text-align: right;
+}
+
+.logo div span {
+    color: #fff;
+    font-size: 30px;
+    font-weight: 900;
+    letter-spacing: 3px;
+}
+
+.logo p {
+    color: #9297ad;
+    font-size: 8px;
+    letter-spacing: 2px;
+}
+
+.titulo {
+    margin-bottom: 24px;
+}
+
+.titulo h1 {
+    color: #fff;
+    font-size: 26px;
+}
+
+.titulo p {
+    margin-top: 6px;
+    color: #9297ad;
+    font-size: 13px;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+.campo {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.campo label {
+    color: #e1e3ef;
+    font-size: 13px;
+}
+
+.campo input {
+    width: 100%;
+    min-width: 0;
+    height: 46px;
+    padding: 0 13px;
+    border: 1px solid #34494a;
+    border-radius: 8px;
+    outline: none;
+    background: #202829;
+    color: #fff;
+    font-size: 14px;
+}
+
+.campo input:focus {
+    border-color: #079fa5;
+    box-shadow: 0 0 8px #079fa550;
+}
+
+.campo input::placeholder {
+    color: #777d96;
+}
+
+.erro {
+    margin-top: 16px;
+    padding: 10px;
+    border-radius: 6px;
+    background: #c0131520;
+    color: #ff8587;
+    font-size: 12px;
+    text-align: center;
+}
+
+.botao {
+    width: 100%;
+    height: 48px;
+    margin-top: 20px;
+    border: 0;
+    border-radius: 8px;
+    background: linear-gradient(90deg, #079fa5, #087c83);
+    color: #fff;
+    font-size: 14px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    cursor: pointer;
+}
+
+.botao:disabled {
+    opacity: .7;
+    cursor: wait;
+}
+
+.entrada {
+    margin-top: 18px;
+    color: #9297ad;
+    font-size: 13px;
+    text-align: center;
+}
+
+.entrada a {
+    color: #47bbc0;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+@media (max-width: 620px) {
+    .container {
+        align-items: start;
+        padding: 16px;
+    }
+
+    .card {
+        padding: 24px 18px;
+    }
+
+    .grid {
+        grid-template-columns: 1fr;
+    }
+}
