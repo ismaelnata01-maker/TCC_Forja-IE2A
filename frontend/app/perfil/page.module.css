@@ -1,0 +1,503 @@
+
+.main {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background: #050505;
+    color: #ffffff;
+}
+
+/* CABEÇALHO */
+
+.header {
+    height: 75px;
+    padding: 0 7%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #234447;
+    background: #101516;
+}
+
+.logo {
+    color: #ffffff;
+    font-size: 29px;
+    font-weight: 900;
+    letter-spacing: 2px;
+    text-decoration: none;
+}
+
+.logo span {
+    color: #20c4c9;
+}
+
+.header nav {
+    display: flex;
+    gap: 30px;
+}
+
+.header nav a {
+    color: #aeb8b8;
+    font-size: 13px;
+    text-decoration: none;
+    transition: 0.2s;
+}
+
+.header nav a:hover {
+    color: #20c4c9;
+}
+
+.usuarioHeader {
+    color: #20c4c9;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+/* CONTEÚDO */
+
+.conteudo {
+    width: 86%;
+    max-width: 1150px;
+    margin: 45px auto;
+    flex: 1;
+}
+
+.tituloPagina {
+    margin-bottom: 28px;
+}
+
+.tituloPagina span,
+.secaoTitulo > div > span {
+    color: #20c4c9;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 2px;
+}
+
+.tituloPagina h1 {
+    margin: 8px 0;
+    font-size: 34px;
+}
+
+.tituloPagina p {
+    margin: 0;
+    color: #929b9c;
+    font-size: 13px;
+}
+
+/* PERFIL */
+
+.perfilCard {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 25px;
+    border: 1px solid #234447;
+    border-radius: 12px;
+    background: #151b1c;
+}
+
+.avatar {
+    width: 72px;
+    height: 72px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    border-radius: 50%;
+    background: #087c83;
+    color: #ffffff;
+    font-size: 23px;
+    font-weight: 800;
+}
+
+.dadosUsuario {
+    flex: 1;
+}
+
+.dadosUsuario > span {
+    color: #20c4c9;
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+}
+
+.dadosUsuario h2 {
+    margin: 5px 0;
+    font-size: 21px;
+}
+
+.dadosUsuario p {
+    margin: 0;
+    color: #929b9c;
+    font-size: 12px;
+}
+
+.botaoEditar {
+    padding: 11px 20px;
+    border: 1px solid #087c83;
+    border-radius: 7px;
+    background: transparent;
+    color: #20c4c9;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.botaoEditar:hover {
+    background: #087c83;
+    color: #ffffff;
+}
+
+/* ESTATÍSTICAS */
+
+.estatisticas {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+    margin: 25px 0 40px;
+}
+
+.estatisticaCard {
+    padding: 22px;
+    border: 1px solid #234447;
+    border-radius: 10px;
+    background: #151b1c;
+}
+
+.estatisticaCard span {
+    color: #929b9c;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+.estatisticaCard strong {
+    display: block;
+    margin: 12px 0 5px;
+    color: #20c4c9;
+    font-size: 27px;
+}
+
+.estatisticaCard p {
+    margin: 0;
+    color: #778283;
+    font-size: 11px;
+}
+
+/* SEÇÕES */
+
+.secao {
+    margin-bottom: 40px;
+}
+
+.secaoTitulo {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 18px;
+}
+
+.secaoTitulo h2 {
+    margin: 7px 0 0;
+    font-size: 22px;
+}
+
+.quantidade {
+    color: #929b9c;
+    font-size: 12px;
+}
+
+/* BIBLIOTECA */
+
+.jogosGrid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+}
+
+.jogoCard {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border: 1px solid #234447;
+    border-radius: 10px;
+    background: #151b1c;
+    transition: 0.2s;
+}
+
+.jogoCard:hover {
+    transform: translateY(-4px);
+    border-color: #20c4c9;
+}
+
+.capaJogo {
+    height: 135px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 35px;
+    font-weight: 900;
+    letter-spacing: 3px;
+}
+
+.capa1 {
+    background: linear-gradient(135deg, #d17b32, #572b24, #111111);
+}
+
+.capa2 {
+    background: linear-gradient(135deg, #a17b4b, #443323, #101010);
+}
+
+.capa3 {
+    background: linear-gradient(135deg, #7c4c9c, #302044, #090909);
+}
+
+.infoJogo {
+    padding: 15px;
+}
+
+.infoJogo h3 {
+    margin: 0 0 6px;
+    font-size: 14px;
+}
+
+.infoJogo p {
+    margin: 0 0 12px;
+    color: #929b9c;
+    font-size: 11px;
+}
+
+.infoJogo > span {
+    display: inline-block;
+    padding: 5px 9px;
+    border-radius: 5px;
+    background: rgba(7, 159, 165, 0.13);
+    color: #20c4c9;
+    font-size: 10px;
+    font-weight: 700;
+}
+
+/* PEDIDOS */
+
+.pedidosContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.pedido {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    padding: 18px 20px;
+    border: 1px solid #234447;
+    border-radius: 9px;
+    background: #151b1c;
+}
+
+.pedidoId {
+    color: #20c4c9;
+    font-size: 10px;
+    font-weight: 700;
+}
+
+.pedidoInfo h3 {
+    margin: 6px 0;
+    font-size: 14px;
+}
+
+.pedidoInfo p {
+    margin: 0;
+    color: #929b9c;
+    font-size: 11px;
+}
+
+.pedidoFinal {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 8px;
+}
+
+.pedidoFinal strong {
+    font-size: 14px;
+}
+
+.pedidoFinal > span {
+    padding: 5px 9px;
+    border-radius: 5px;
+    font-size: 10px;
+    font-weight: 700;
+}
+
+.concluido {
+    background: rgba(0, 148, 10, 0.15);
+    color: #43d65a;
+}
+
+.processando {
+    background: rgba(210, 193, 11, 0.13);
+    color: #e0d34a;
+}
+
+/* ATALHOS */
+
+.atalhos {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+    margin-bottom: 45px;
+}
+
+.atalhos a {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 20px;
+    border: 1px solid #234447;
+    border-radius: 10px;
+    background: #151b1c;
+    color: #ffffff;
+    text-decoration: none;
+    transition: 0.2s;
+}
+
+.atalhos a:hover {
+    border-color: #20c4c9;
+    transform: translateY(-3px);
+}
+
+.atalhos a > span {
+    color: #20c4c9;
+    font-size: 28px;
+}
+
+.atalhos a div {
+    flex: 1;
+}
+
+.atalhos h3 {
+    margin: 0 0 5px;
+    font-size: 13px;
+}
+
+.atalhos p {
+    margin: 0;
+    color: #929b9c;
+    font-size: 11px;
+}
+
+.atalhos strong {
+    color: #20c4c9;
+    font-size: 20px;
+}
+
+/* RODAPÉ */
+
+.footer {
+    padding: 22px;
+    border-top: 1px solid #234447;
+    background: #101516;
+    color: #778283;
+    font-size: 11px;
+    text-align: center;
+}
+
+/* RESPONSIVIDADE */
+
+@media (max-width: 750px) {
+    .header {
+        padding: 0 5%;
+    }
+
+    .header nav {
+        gap: 15px;
+    }
+
+    .conteudo {
+        width: 90%;
+        margin: 30px auto;
+    }
+
+    .jogosGrid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 520px) {
+    .header {
+        height: auto;
+        min-height: 70px;
+        flex-wrap: wrap;
+        gap: 12px;
+        padding: 15px 5%;
+    }
+
+    .header nav {
+        order: 3;
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .header nav a {
+        font-size: 11px;
+    }
+
+    .logo {
+        font-size: 25px;
+    }
+
+    .usuarioHeader {
+        font-size: 11px;
+    }
+
+    .tituloPagina h1 {
+        font-size: 28px;
+    }
+
+    .perfilCard {
+        flex-wrap: wrap;
+        padding: 18px;
+    }
+
+    .avatar {
+        width: 58px;
+        height: 58px;
+    }
+
+    .dadosUsuario h2 {
+        font-size: 17px;
+    }
+
+    .botaoEditar {
+        width: 100%;
+    }
+
+    .jogosGrid {
+        grid-template-columns: 1fr;
+    }
+
+    .capaJogo {
+        height: 160px;
+    }
+
+    .pedido {
+        align-items: flex-start;
+    }
+
+    .pedidoInfo h3 {
+        font-size: 12px;
+    }
+
+    .pedidoFinal strong {
+        font-size: 12px;
+    }
+
+    .atalhos {
+        grid-template-columns: 1fr;
+    }
+}

@@ -1,0 +1,143 @@
+
+/* ESTRUTURA */
+
+.main {
+    display: flex;
+    min-height: 100vh;
+    width: 100%;
+    background-color: #080B0D;
+    color: white;
+}
+
+.conteudo {
+    flex: 1;
+    min-width: 0;
+    min-height: 100vh;
+    margin-left: 250px;
+    padding: 40px;
+}
+
+/* CABEÇALHO */
+
+.headerCatalogo {
+    margin-bottom: 30px;
+}
+
+.headerCatalogo h1 {
+    font-size: 28px;
+    margin-bottom: 8px;
+}
+
+.headerCatalogo p {
+    color: #758184;
+    font-size: 14px;
+}
+
+/* GRID DE JOGOS */
+
+.listaJogos {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.cardJogo {
+    background-color: #121719;
+    border: 1px solid #252D30;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: transform 0.2s;
+}
+
+.cardJogo:hover {
+    transform: translateY(-5px);
+}
+
+/* IMAGEM DO JOGO */
+
+.imagemJogo {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 2 / 3;
+    overflow: hidden;
+    background-color: #080B0D;
+}
+
+.imagemJogo img {
+    object-fit: contain;
+}
+
+/* BOTÃO DE FAVORITO */
+
+.botaoFavorito {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border: 1px solid #ffffff30;
+    border-radius: 50%;
+    background-color: #080B0DCC;
+    color: white;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.botaoFavorito:hover {
+    background-color: #35D0CF;
+    color: #080B0D;
+    transform: scale(1.1);
+}
+
+.favoritado {
+    color: #35D0CF;
+    border-color: #35D0CF;
+}
+
+/* INFORMAÇÕES DO JOGO */
+
+.infoJogo {
+    padding: 15px;
+}
+
+.infoJogo p {
+    color: #35D0CF;
+    font-size: 12px;
+    margin-bottom: 8px;
+}
+
+.infoJogo h3 {
+    font-size: 16px;
+    margin-bottom: 12px;
+}
+
+.preco span {
+    color: #35D0CF;
+    font-weight: bold;
+}
+
+/* TABLET */
+
+@media (max-width: 900px) {
+    .conteudo {
+        margin-left: 220px;
+        padding: 25px;
+    }
+}
+
+/* CELULAR */
+
+@media (max-width: 600px) {
+    .conteudo {
+        margin-left: 70px;
+        padding: 15px;
+    }
+
+    .listaJogos {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
