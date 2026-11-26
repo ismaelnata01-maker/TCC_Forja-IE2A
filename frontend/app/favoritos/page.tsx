@@ -1,114 +1,47 @@
 
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
-import styles from "./page.module.css";
 import Sidebar from "@/componentes/sidebar";
+import { Search, Heart, Trash2, ArrowRight } from "lucide-react";
+import styles from "./page.module.css";
 
-import {
-    Search,
-    Bell,
-    User,
-    Heart,
-    Gamepad2,
-    Trash2,
-    ArrowRight,
-} from "lucide-react";
+type Jogo = {
+    id: number;
+    nome: string;
+    imagem: string;
+    preco: string;
+    categoria: string;
+};
 
-const jogosIniciais = [
-    {
-        id: 1,
-        nome: "Battlefield 2042",
-        categoria: "FPS / Guerra",
-        descricao: "Entre em batalhas intensas em guerras de larga escala.",
-        imagem: "BF",
-        cor: "battlefield",
-    },
-    {
-        id: 2,
-        nome: "Fortnite",
-        categoria: "Battle Royale",
-        descricao: "Construa, lute e seja o último sobrevivente.",
-        imagem: "FN",
-        cor: "fortnite",
-    },
-    {
-        id: 3,
-        nome: "Grand Theft Auto V",
-        categoria: "Mundo Aberto",
-        descricao: "Explore Los Santos e viva sua própria história.",
-        imagem: "GTA V",
-        cor: "gta",
-    },
-    {
-        id: 4,
-        nome: "Cyberpunk 2077",
-        categoria: "RPG / Ação",
-        descricao: "Explore Night City em um futuro tecnológico.",
-        imagem: "2077",
-        cor: "cyberpunk",
-    },
-    {
-        id: 5,
-        nome: "Red Dead Redemption 2",
-        categoria: "Aventura",
-        descricao: "Viva uma jornada pelo Velho Oeste.",
-        imagem: "RDR2",
-        cor: "reddead",
-    },
-    {
-        id: 6,
-        nome: "Call of Duty: Modern Warfare III",
-        categoria: "FPS / Guerra",
-        descricao: "Participe de operações militares intensas.",
-        imagem: "COD",
-        cor: "cod",
-    },
-    {
-        id: 7,
-        nome: "Elden Ring",
-        categoria: "RPG / Fantasia",
-        descricao: "Enfrente criaturas e explore um mundo misterioso.",
-        imagem: "ELDEN RING",
-        cor: "elden",
-    },
-    {
-        id: 8,
-        nome: "Forza Horizon 5",
-        categoria: "Corrida",
-        descricao: "Corra em um mundo aberto inspirado no México.",
-        imagem: "FORZA",
-        cor: "forza",
-    },
-    {
-        id: 9,
-        nome: "The Witcher 3",
-        categoria: "RPG / Aventura",
-        descricao: "Acompanhe Geralt em uma aventura fantástica.",
-        imagem: "WITCHER",
-        cor: "witcher",
-    },
-    {
-        id: 10,
-        nome: "God of War Ragnarök",
-        categoria: "Ação / Aventura",
-        descricao: "Acompanhe Kratos e Atreus em uma jornada épica.",
-        imagem: "GOD OF WAR",
-        cor: "god",
-    },
-];
-
-export default function Favoritos() {
+export default function FavoritosPage() {
+    const [jogos, setJogos] = useState<Jogo[]>([]);
     const [busca, setBusca] = useState("");
-    const [jogos, setJogos] = useState(jogosIniciais);
 
+    // Busca os jogos salvos no navegador
+    useEffect(() => {
+        const salvos = localStorage.getItem("jogosFavoritos");
+
+        if (salvos) {
+            try {
+                setJogos(JSON.parse(salvos));
+            } catch {
+                setJogos([]);
+            }
+        }
+    }, []);
+
+    // Remove um jogo dos favoritos
     function removerFavorito(id: number) {
-        setJogos((jogosAtuais) =>
-            jogosAtuais.filter((jogo) => jogo.id !== id)
-        );
+        const atualizados = jogos.filter((jogo) => jogo.id !== id);
+
+        setJogos(atualizados);
+        localStorage.setItem("jogosFavoritos", JSON.stringify(atualizados));
     }
 
+    // Filtra os jogos pela pesquisa
     const jogosFiltrados = jogos.filter((jogo) =>
         jogo.nome.toLowerCase().includes(busca.toLowerCase())
     );
@@ -118,38 +51,19 @@ export default function Favoritos() {
             <Sidebar />
 
             <div className={styles.conteudo}>
-                {/* HEADER */}
                 <header className={styles.header}>
                     <div className={styles.pesquisa}>
-                        <Search size={20} />
+                        <Search size={19} />
 
                         <input
                             type="text"
-                            placeholder="Pesquisar jogos..."
+                            placeholder="Pesquisar favoritos..."
                             value={busca}
                             onChange={(e) => setBusca(e.target.value)}
                         />
                     </div>
-
-                    <div className={styles.acoesHeader}>
-                        <button
-                            className={styles.botaoIcone}
-                            aria-label="Notificações"
-                        >
-                            <Bell size={21} />
-                        </button>
-
-                        <Link
-                            href="/perfil"
-                            className={styles.perfilHeader}
-                            aria-label="Meu perfil"
-                        >
-                            <User size={21} />
-                        </Link>
-                    </div>
                 </header>
 
-                {/* TÍTULO */}
                 <section className={styles.titulo}>
                     <div>
                         <span className={styles.destaque}>
@@ -162,85 +76,48 @@ export default function Favoritos() {
                         </h1>
 
                         <p>
-                            Todos os seus jogos preferidos em um só lugar.
+                            Todos os jogos que você escolheu guardar.
                         </p>
                     </div>
 
                     <div className={styles.contador}>
-                        <strong>
-                            {jogos.length.toString().padStart(2, "0")}
-                        </strong>
+                        <strong>{jogos.length.toString().padStart(2, "0")}</strong>
                         <span>Jogos salvos</span>
                     </div>
                 </section>
 
-                {/* LISTA DE FAVORITOS */}
                 <section className={styles.secao}>
                     <div className={styles.secaoTitulo}>
-                        <div>
-                            <span className={styles.subtitulo}>
-                                <Heart size={14} />
-                                SELEÇÃO PESSOAL
-                            </span>
-
-                            <h2>Seus jogos favoritos</h2>
-                        </div>
-
-                        <span className={styles.quantidade}>
-                            {jogosFiltrados.length} encontrados
-                        </span>
+                        <h2>Seus jogos favoritos</h2>
+                        <span>{jogosFiltrados.length} encontrados</span>
                     </div>
 
                     {jogosFiltrados.length > 0 ? (
                         <div className={styles.lista}>
                             {jogosFiltrados.map((jogo) => (
-                                <article
-                                    className={styles.card}
-                                    key={jogo.id}
-                                >
-                                    <div
-                                        className={`${styles.capa} ${styles[jogo.cor]}`}
-                                    >
-                                        <span>{jogo.imagem}</span>
-
-                                        <Heart
-                                            className={styles.iconeCapa}
-                                            size={20}
-                                            fill="currentColor"
+                                <article className={styles.card} key={jogo.id}>
+                                    <div className={styles.imagemJogo}>
+                                        <Image
+                                            src={jogo.imagem}
+                                            alt={jogo.nome}
+                                            fill
+                                            sizes="(max-width: 700px) 80vw, 250px"
                                         />
+
+                                        <button
+                                            className={styles.remover}
+                                            onClick={() => removerFavorito(jogo.id)}
+                                            aria-label={`Remover ${jogo.nome} dos favoritos`}
+                                            title="Remover dos favoritos"
+                                        >
+                                            <Heart size={19} fill="currentColor" />
+                                        </button>
                                     </div>
 
                                     <div className={styles.info}>
-                                        <span className={styles.categoria}>
-                                            {jogo.categoria}
-                                        </span>
-
+                                        <p>{jogo.categoria}</p>
                                         <h3>{jogo.nome}</h3>
-
-                                        <p>{jogo.descricao}</p>
-
-                                        <div className={styles.acoes}>
-                                            <button
-                                                className={styles.jogar}
-                                                onClick={() =>
-                                                    alert("Em breve!")
-                                                }
-                                            >
-                                                <Gamepad2 size={17} />
-                                                Jogar agora
-                                            </button>
-
-                                            <button
-                                                className={styles.remover}
-                                                onClick={() =>
-                                                    removerFavorito(jogo.id)
-                                                }
-                                                title="Remover dos favoritos"
-                                                aria-label={`Remover ${jogo.nome} dos favoritos`}
-                                            >
-                                                <Trash2 size={18} />
-                                            </button>
-                                        </div>
+                                        <strong>{jogo.preco}</strong>
                                     </div>
                                 </article>
                             ))}
@@ -251,19 +128,19 @@ export default function Favoritos() {
 
                             <h3>
                                 {jogos.length === 0
-                                    ? "Sua biblioteca está vazia"
+                                    ? "Sua lista está vazia"
                                     : "Nenhum jogo encontrado"}
                             </h3>
 
                             <p>
                                 {jogos.length === 0
-                                    ? "Explore os jogos e adicione seus favoritos!"
+                                    ? "Explore o catálogo e favorite seus jogos preferidos."
                                     : "Tente pesquisar por outro nome."}
                             </p>
 
                             {jogos.length === 0 && (
                                 <Link href="/catalogo">
-                                    Explorar jogos
+                                    Explorar catálogo
                                     <ArrowRight size={18} />
                                 </Link>
                             )}
