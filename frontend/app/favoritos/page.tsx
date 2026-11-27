@@ -1,49 +1,104 @@
-
 "use client";
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import Sidebar from "@/componentes/sidebar";
-import { Search, Heart, Trash2, ArrowRight } from "lucide-react";
+import { Search, Heart, ArrowRight } from "lucide-react";
 import styles from "./page.module.css";
 
 type Jogo = {
     id: number;
-    nome: string;
-    imagem: string;
-    preco: string;
-    categoria: string;
+    titulo: string;
+    genero: string;
+    imagemUrl: string | null;
+    preco: number;
 };
 
+type Desejo = {
+    jogoId: number;
+    jogo: Jogo;
+};
+
+function formatarPreco(preco: number) {
+    return new Intl.NumberFormat("pt-BR", {
+        style: "currency",
+        currency: "BRL",
+    }).format(preco);
+}
+
+async function lerErro(response: Response, mensagemPadrao: string) {
+    const texto = await response.text();
+    try {
+        const mensagem: unknown = JSON.parse(texto);
+        return typeof mensagem === "string" ? mensagem : mensagemPadrao;
+    } catch {
+        return texto || mensagemPadrao;
+    }
+}
+
 export default function FavoritosPage() {
-    const [jogos, setJogos] = useState<Jogo[]>([]);
+    const [jogos, setJogos] = useState<Desejo[]>([]);
     const [busca, setBusca] = useState("");
+    const [carregando, setCarregando] = useState(true);
+    const [removendo, setRemovendo] = useState<number | null>(null);
+    const [erro, setErro] = useState("");
 
-    // Busca os jogos salvos no navegador
     useEffect(() => {
-        const salvos = localStorage.getItem("jogosFavoritos");
+        let ativo = true;
 
-        if (salvos) {
+        async function carregarDesejos() {
             try {
-                setJogos(JSON.parse(salvos));
-            } catch {
-                setJogos([]);
+                const response = await fetch("/api/desejos");
+                if (!response.ok) {
+                    if (response.status === 401) {
+                        throw new Error("Faça login para acessar sua lista de desejos.");
+                    }
+                    throw new Error(await lerErro(response, "Não foi possível carregar sua lista de desejos."));
+                }
+
+                const desejos: Desejo[] = await response.json();
+                if (ativo) setJogos(desejos);
+            } catch (e) {
+                if (ativo) {
+                    setErro(e instanceof Error ? e.message : "Não foi possível conectar ao servidor.");
+                }
+            } finally {
+                if (ativo) setCarregando(false);
             }
         }
+
+        void carregarDesejos();
+        return () => {
+            ativo = false;
+        };
     }, []);
 
-    // Remove um jogo dos favoritos
-    function removerFavorito(id: number) {
-        const atualizados = jogos.filter((jogo) => jogo.id !== id);
+    async function removerFavorito(jogoId: number) {
+        setRemovendo(jogoId);
+        setErro("");
 
-        setJogos(atualizados);
-        localStorage.setItem("jogosFavoritos", JSON.stringify(atualizados));
+        try {
+            const response = await fetch(`/api/desejos/${jogoId}`, {
+                method: "DELETE",
+            });
+            if (!response.ok) {
+                if (response.status === 401) {
+                    throw new Error("Faça login novamente para alterar sua lista de desejos.");
+                }
+                throw new Error(await lerErro(response, "Não foi possível remover este jogo."));
+            }
+
+            setJogos((atuais) => atuais.filter((item) => item.jogoId !== jogoId));
+        } catch (e) {
+            setErro(e instanceof Error ? e.message : "Não foi possível conectar ao servidor.");
+        } finally {
+            setRemovendo(null);
+        }
     }
 
-    // Filtra os jogos pela pesquisa
-    const jogosFiltrados = jogos.filter((jogo) =>
-        jogo.nome.toLowerCase().includes(busca.toLowerCase())
+    const jogosFiltrados = jogos.filter((item) =>
+        `${item.jogo.titulo} ${item.jogo.genero}`.toLowerCase().includes(busca.toLowerCase())
     );
 
     return (
@@ -66,18 +121,14 @@ export default function FavoritosPage() {
 
                 <section className={styles.titulo}>
                     <div>
-                        <span className={styles.destaque}>
-                            SUA BIBLIOTECA
-                        </span>
+                        <span className={styles.destaque}>SUA LISTA DE DESEJOS</span>
 
                         <h1>
                             Meus Favoritos
                             <Heart size={25} fill="currentColor" />
                         </h1>
 
-                        <p>
-                            Todos os jogos que você escolheu guardar.
-                        </p>
+                        <p>Todos os jogos que você escolheu guardar.</p>
                     </div>
 
                     <div className={styles.contador}>
@@ -86,28 +137,51 @@ export default function FavoritosPage() {
                     </div>
                 </section>
 
+                {erro && (carregando || jogos.length > 0) && (
+                    <p role="alert">
+                        {erro}{" "}
+                        {erro.toLowerCase().includes("login") && <Link href="/">Fazer login</Link>}
+                    </p>
+                )}
+
                 <section className={styles.secao}>
                     <div className={styles.secaoTitulo}>
                         <h2>Seus jogos favoritos</h2>
                         <span>{jogosFiltrados.length} encontrados</span>
                     </div>
 
-                    {jogosFiltrados.length > 0 ? (
+                    {carregando ? (
+                        <div className={styles.vazio}>
+                            <p>Carregando sua lista de desejos...</p>
+                        </div>
+                    ) : erro && jogos.length === 0 ? (
+                        <div className={styles.vazio} role="alert">
+                            <Heart size={45} />
+                            <h3>Não foi possível carregar sua lista</h3>
+                            <p>{erro}</p>
+                            {erro.toLowerCase().includes("login") && (
+                                <Link href="/">Fazer login</Link>
+                            )}
+                        </div>
+                    ) : jogosFiltrados.length > 0 ? (
                         <div className={styles.lista}>
-                            {jogosFiltrados.map((jogo) => (
-                                <article className={styles.card} key={jogo.id}>
+                            {jogosFiltrados.map((item) => (
+                                <article className={styles.card} key={item.jogoId}>
                                     <div className={styles.imagemJogo}>
                                         <Image
-                                            src={jogo.imagem}
-                                            alt={jogo.nome}
+                                            src={item.jogo.imagemUrl || "/jogos/cyberpunk.jpg"}
+                                            alt={item.jogo.titulo}
                                             fill
+                                            unoptimized
                                             sizes="(max-width: 700px) 80vw, 250px"
                                         />
 
                                         <button
+                                            type="button"
                                             className={styles.remover}
-                                            onClick={() => removerFavorito(jogo.id)}
-                                            aria-label={`Remover ${jogo.nome} dos favoritos`}
+                                            onClick={() => void removerFavorito(item.jogoId)}
+                                            disabled={removendo !== null}
+                                            aria-label={`Remover ${item.jogo.titulo} dos favoritos`}
                                             title="Remover dos favoritos"
                                         >
                                             <Heart size={19} fill="currentColor" />
@@ -115,9 +189,9 @@ export default function FavoritosPage() {
                                     </div>
 
                                     <div className={styles.info}>
-                                        <p>{jogo.categoria}</p>
-                                        <h3>{jogo.nome}</h3>
-                                        <strong>{jogo.preco}</strong>
+                                        <p>{item.jogo.genero}</p>
+                                        <h3>{item.jogo.titulo}</h3>
+                                        <strong>{formatarPreco(item.jogo.preco)}</strong>
                                     </div>
                                 </article>
                             ))}
@@ -135,7 +209,7 @@ export default function FavoritosPage() {
                             <p>
                                 {jogos.length === 0
                                     ? "Explore o catálogo e favorite seus jogos preferidos."
-                                    : "Tente pesquisar por outro nome."}
+                                    : "Tente pesquisar por outro nome ou gênero."}
                             </p>
 
                             {jogos.length === 0 && (

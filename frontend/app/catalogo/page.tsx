@@ -1,58 +1,132 @@
-
 "use client";
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import Sidebar from "@/componentes/sidebar";
 import { Heart } from "lucide-react";
 import styles from "./page.module.css";
 
-// Lista de jogos
-const todosOsJogos = [
-    { id: 1, nome: "Cyberpunk 2077", imagem: "/jogos/cyberpunk.jpg", preco: "R$ 149,90", categoria: "RPG" },
-    { id: 2, nome: "Red Dead Redemption 2", imagem: "/jogos/reddead.jpg", preco: "R$ 99,90", categoria: "Aventura" },
-    { id: 3, nome: "Elden Ring", imagem: "/jogos/eldenring.jpg", preco: "R$ 199,90", categoria: "RPG" },
-    { id: 4, nome: "Forza Horizon 5", imagem: "/jogos/forza.jpg", preco: "R$ 129,90", categoria: "Corrida" },
-    { id: 5, nome: "Minecraft", imagem: "/jogos/minecraft.jpg", preco: "R$ 79,90", categoria: "Sandbox" },
-    { id: 6, nome: "God of War Ragnarök", imagem: "/jogos/gow.jpg", preco: "R$ 249,90", categoria: "Ação" },
-    { id: 7, nome: "The Legend of Zelda: Breath of the Wild", imagem: "/jogos/zelda-breath-of-the-wild.jpg", preco: "R$ 299,90", categoria: "Aventura" },
-    { id: 8, nome: "The Legend of Zelda: Tears of the Kingdom", imagem: "/jogos/zelda-tears-of-the-kingdom.jpg", preco: "R$ 299,90", categoria: "Aventura" },
-    { id: 9, nome: "The Legend of Zelda: Link's Awakening", imagem: "/jogos/zelda-links-awakening.jpg", preco: "R$ 199,90", categoria: "Aventura" },
-    { id: 10, nome: "The Legend of Zelda: Ocarina of Time", imagem: "/jogos/zelda-ocarina-of-time.jpg", preco: "R$ 199,90", categoria: "Aventura" },
-    { id: 11, nome: "The Legend of Zelda: Majora's Mask", imagem: "/jogos/zelda-majoras-mask.jpg", preco: "R$ 199,90", categoria: "Aventura" },
-    { id: 12, nome: "The Legend of Zelda: Twilight Princess", imagem: "/jogos/zelda-twilight-princess.jpg", preco: "R$ 199,90", categoria: "Aventura" },
-    { id: 13, nome: "The Legend of Zelda: The Wind Waker", imagem: "/jogos/zelda-the-wind-waker.jpg", preco: "R$ 199,90", categoria: "Aventura" },
-    { id: 14, nome: "The Legend of Zelda: Skyward Sword", imagem: "/jogos/zelda-skyward-sword.jpg", preco: "R$ 249,90", categoria: "Aventura" },
-    { id: 15, nome: "The Legend of Zelda: A Link to the Past", imagem: "/jogos/zelda-a-link-to-the-past.jpg", preco: "R$ 149,90", categoria: "Aventura" },
-    { id: 16, nome: "The Legend of Zelda: The Minish Cap", imagem: "/jogos/zelda-the-minish-cap.jpg", preco: "R$ 149,90", categoria: "Aventura" },
-];
+type Jogo = {
+    id: number;
+    titulo: string;
+    descricao: string;
+    genero: string;
+    plataforma: string;
+    imagemUrl: string | null;
+    anoLancamento: number | null;
+    preco: number;
+};
+
+type Desejo = {
+    jogoId: number;
+};
+
+function formatarPreco(preco: number) {
+    return new Intl.NumberFormat("pt-BR", {
+        style: "currency",
+        currency: "BRL",
+    }).format(preco);
+}
+
+async function lerErro(response: Response, mensagemPadrao: string) {
+    const texto = await response.text();
+    try {
+        const mensagem: unknown = JSON.parse(texto);
+        return typeof mensagem === "string" ? mensagem : mensagemPadrao;
+    } catch {
+        return texto || mensagemPadrao;
+    }
+}
 
 export default function CatalogoPage() {
-    const [favoritos, setFavoritos] = useState<typeof todosOsJogos>([]);
+    const [jogos, setJogos] = useState<Jogo[]>([]);
+    const [favoritos, setFavoritos] = useState<Set<number>>(new Set());
+    const [carregando, setCarregando] = useState(true);
+    const [carregandoDesejos, setCarregandoDesejos] = useState(true);
+    const [salvando, setSalvando] = useState(false);
+    const [erro, setErro] = useState("");
+    const [mensagem, setMensagem] = useState("");
 
-    // Carrega os favoritos salvos
     useEffect(() => {
-        const salvos = localStorage.getItem("jogosFavoritos");
+        let ativo = true;
 
-        if (salvos) {
+        async function carregarJogos() {
             try {
-                setFavoritos(JSON.parse(salvos));
-            } catch {
-                setFavoritos([]);
+                const response = await fetch("/api/jogos");
+                if (!response.ok) {
+                    throw new Error(await lerErro(response, "Não foi possível carregar o catálogo."));
+                }
+                const dados: Jogo[] = await response.json();
+                if (ativo) setJogos(dados);
+            } catch (e) {
+                if (ativo) {
+                    setErro(e instanceof Error ? e.message : "Não foi possível conectar ao servidor.");
+                }
+            } finally {
+                if (ativo) setCarregando(false);
             }
         }
+
+        async function carregarDesejos() {
+            try {
+                const response = await fetch("/api/desejos");
+                if (!response.ok) {
+                    if (response.status === 401) {
+                        throw new Error("Entre na sua conta para usar a lista de desejos.");
+                    }
+                    throw new Error(await lerErro(response, "Não foi possível carregar seus favoritos."));
+                }
+                const desejos: Desejo[] = await response.json();
+                if (ativo) setFavoritos(new Set(desejos.map((desejo) => desejo.jogoId)));
+            } catch (e) {
+                if (ativo) {
+                    setMensagem(e instanceof Error ? e.message : "Não foi possível carregar seus favoritos.");
+                }
+            } finally {
+                if (ativo) setCarregandoDesejos(false);
+            }
+        }
+
+        void carregarJogos();
+        void carregarDesejos();
+        return () => {
+            ativo = false;
+        };
     }, []);
 
-    // Adiciona ou remove um jogo dos favoritos
-    function alternarFavorito(jogo: typeof todosOsJogos[number]) {
-        const jaFavoritado = favoritos.some((favorito) => favorito.id === jogo.id);
+    async function alternarFavorito(jogoId: number) {
+        const removendo = favoritos.has(jogoId);
+        setSalvando(true);
+        setErro("");
+        setMensagem("");
 
-        const atualizados = jaFavoritado
-            ? favoritos.filter((favorito) => favorito.id !== jogo.id)
-            : [...favoritos, jogo];
+        try {
+            const response = await fetch(`/api/desejos/${jogoId}`, {
+                method: removendo ? "DELETE" : "POST",
+            });
+            if (!response.ok) {
+                if (response.status === 401) {
+                    throw new Error("Faça login para adicionar jogos à sua lista de desejos.");
+                }
+                throw new Error(await lerErro(response, "Não foi possível atualizar sua lista de desejos."));
+            }
 
-        setFavoritos(atualizados);
-        localStorage.setItem("jogosFavoritos", JSON.stringify(atualizados));
+            setFavoritos((atuais) => {
+                const atualizados = new Set(atuais);
+                if (removendo) {
+                    atualizados.delete(jogoId);
+                } else {
+                    atualizados.add(jogoId);
+                }
+                return atualizados;
+            });
+            setMensagem(removendo ? "Jogo removido da lista de desejos." : "Jogo adicionado à lista de desejos.");
+        } catch (e) {
+            setErro(e instanceof Error ? e.message : "Não foi possível conectar ao servidor.");
+        } finally {
+            setSalvando(false);
+        }
     }
 
     return (
@@ -62,24 +136,37 @@ export default function CatalogoPage() {
             <div className={styles.conteudo}>
                 <header className={styles.headerCatalogo}>
                     <h1>Catálogo de Jogos</h1>
-                    <p>
-                        Explore todos os {todosOsJogos.length} jogos disponíveis na plataforma.
-                    </p>
+                    <p>Explore todos os {jogos.length} jogos disponíveis na plataforma.</p>
                 </header>
 
+                {erro && <p role="alert">{erro}</p>}
+                {mensagem && (
+                    <p role="status">
+                        {mensagem}{" "}
+                        {mensagem.includes("login") || mensagem.includes("conta") ? (
+                            <Link href="/">Fazer login</Link>
+                        ) : null}
+                    </p>
+                )}
+                {carregando && <p>Carregando catálogo...</p>}
+
+                {!carregando && !erro && jogos.length === 0 && (
+                    <p>Nenhum jogo cadastrado no catálogo.</p>
+                )}
+
                 <div className={styles.listaJogos}>
-                    {todosOsJogos.map((jogo) => {
-                        const favoritado = favoritos.some(
-                            (favorito) => favorito.id === jogo.id
-                        );
+                    {jogos.map((jogo) => {
+                        const favoritado = favoritos.has(jogo.id);
+                        const imagem = jogo.imagemUrl || "/jogos/cyberpunk.jpg";
 
                         return (
                             <article className={styles.cardJogo} key={jogo.id}>
                                 <div className={styles.imagemJogo}>
                                     <Image
-                                        src={jogo.imagem}
-                                        alt={jogo.nome}
+                                        src={imagem}
+                                        alt={jogo.titulo}
                                         fill
+                                        unoptimized
                                         sizes="(max-width: 700px) 80vw, 250px"
                                     />
 
@@ -88,12 +175,14 @@ export default function CatalogoPage() {
                                         className={`${styles.botaoFavorito} ${
                                             favoritado ? styles.favoritado : ""
                                         }`}
-                                        onClick={() => alternarFavorito(jogo)}
+                                        onClick={() => void alternarFavorito(jogo.id)}
+                                        disabled={salvando || carregandoDesejos}
                                         aria-label={
                                             favoritado
-                                                ? `Remover ${jogo.nome} dos favoritos`
-                                                : `Adicionar ${jogo.nome} aos favoritos`
+                                                ? `Remover ${jogo.titulo} dos favoritos`
+                                                : `Adicionar ${jogo.titulo} aos favoritos`
                                         }
+                                        aria-pressed={favoritado}
                                     >
                                         <Heart
                                             size={19}
@@ -103,11 +192,10 @@ export default function CatalogoPage() {
                                 </div>
 
                                 <div className={styles.infoJogo}>
-                                    <p>{jogo.categoria}</p>
-                                    <h3>{jogo.nome}</h3>
-
+                                    <p>{jogo.genero} · {jogo.plataforma}</p>
+                                    <h3>{jogo.titulo}</h3>
                                     <div className={styles.preco}>
-                                        <span>{jogo.preco}</span>
+                                        <span>{formatarPreco(jogo.preco)}</span>
                                     </div>
                                 </div>
                             </article>
